@@ -1,0 +1,17 @@
+@media all and (min-width : 768px) {
+  .accordionWidget {
+    display:flex;
+    overflow: hidden;
+  }
+}
+
+@media all and (max-width : 768px) {
+  .accordionWidget {
+    display:block;
+    overflow: hidden;
+  }
+}
+
+.accordionWidgetShrinked {
+  1flex-shrink: 1;
+}

@@ -1,0 +1,40 @@
+.CarsBox {
+  clear: both;
+}
+.car_card {
+  clear: both;
+  display: inline-block;
+  max-width: 17em;
+  margin-right: 2em;
+  margin-bottom: 2em;
+}
+.car_buttons {
+  float: right;
+}
+.car_buttons > button {
+  display: block;
+  margin-left: auto;
+  margin-right:0;
+}
+.km_per_liter {
+  clear: both;
+  float: left;
+  text-align: right;
+}
+.per_mile_per_month {
+  float: right;
+  text-align: right;
+}
+.selected {
+  border: 1px solid red;
+}
+@media screen and (max-width: 768px) {
+  .smHScrollLgVScroll {
+      overflow-x: auto;
+      white-space: nowrap;
+  }
+  .HScrollEntry {
+      display: inline-block;
+      float: none; 	/* Very important */
+  }
+}

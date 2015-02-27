@@ -1,0 +1,36 @@
+trivial React program as npm-browserify project
+write Tutorial Comment React app
+rewrite Tutorial Comment React app until you don't make a single mistake
+rewrite Milleage app in React
+read through React docs
+npm for automation
+---
+read about Flux
+	- write specification of all components, leaf ones first, ending with app.jsx
+	- remove hot swap server
+	- add mongoDB/mongoose support
+	- load cars data from server via REST JSON API
+	- - || - reminders and fillups for a car
+
+	- adding/deleting a fillup and a reminder to/from a car
+working environment: live reload
+		- read about Reflux (write ToDo Flux Tutorial)
+	- reflux, go through article that inserts backbone into the mix
+	- the same program as an ambidex project
+	- do tests and read about stubs/mocks; web dev node & exp ebook, 	testing chapter
+	- D3 for visualization
+	- introducing charts screen
+	- picture clipping for car
+	- menu for mobile
+---
+make everything multi-user
+node user authentication; also via twitter, outlook etc.
+
+profile page
+---
+add skin
+---
+add animation
+- make accordion widged show all the panes in advance and than slide in the right ones
+- make a dashboard-details view transition view
+---

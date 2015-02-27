@@ -1,0 +1,25 @@
+div, img { border: 1px solid black; }
+
+header {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.selectedLayout, .status { float: left; }
+.menu { float: right; }
+
+.contentSection { clear: both; }
+
+.clearfix:before,
+.clearfix:after {
+content: " ";
+display: table;
+}
+
+.clearfix:after {
+clear: both;
+}
+
+.clearfix {
+*zoom: 1;
+} 
