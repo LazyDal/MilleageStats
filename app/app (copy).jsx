@@ -1,5 +1,4 @@
 var Backbone = require('backbone');
-var _ = require('underscore');
 var React = require('react');
 var Router = require('react-router');
 var Route = Router.Route, DefaultRoute = Router.DefaultRoute,
@@ -12,25 +11,26 @@ var HeaderComponent = require('views/HeaderComponent');
 var DetailsView = require('views/DetailsView');
 var DashboardView=require('views/DashboardView');
 var AccordionWidget = require('views/DetailsView/AccordionWidget');
-var Reminders = require('views/DetailsView/Reminders');
-var FillupsView = require('views/DetailsView/FillupsView');
-var FillupDetailsView = require('views/DetailsView/FillupDetailsView');
 
 var theCars = new Cars();
 
 var App = React.createClass({
   getInitialState: function () {
-    return {cars: [], synced: false };
+    return {cars: [], synced: 'false' };
   },
   componentDidMount: function () {
     theCars.on('sync', function() {
-      this.setState({cars: theCars, synced: true});
+       this.setState({cars: theCars, synced: 'true'});
+    }.bind(this));
+
+    theCars.on('error', function () {
+      this.setState({synced: 'error'})
     }.bind(this));
 
     theCars.fetch();
   },
   render: function () {
-    if (this.state.synced) {
+    if (this.state.synced == 'true') {
       console.log('From App: ');
       var carCards = this.state.cars.map(function (acar) {
         console.log(acar);
@@ -43,7 +43,14 @@ var App = React.createClass({
         </div>
       );
     }
-    else {
+    else if (this.state.synced == 'error') {
+      return (
+        <div>
+          <h1>Error - could not connect to the server</h1>
+        </div>
+      );
+    }
+    else if (this.state.synced == 'false') {
       return (<div><HeaderComponent /></div>);
     }
   }
@@ -52,12 +59,7 @@ var App = React.createClass({
 var routes = (
   <Route name="App" path="/" handler={App}>
     <Route name="Details" path="Details" handler={DetailsView}>
-      <Route name="CarDetails" path=":CarId" handler={AccordionWidget} >
-        <Route name="Reminders" path="Reminders" handler={Reminders} />
-        <Route name="Fillups" path="Fillups" handler={FillupsView} >
-          <Route name="FillupDetails" path=":FillupId" handler={FillupDetailsView} />
-        </Route>
-      </Route>
+      <Route name="CarDetails" path=":CarId" handler={AccordionWidget} />
     </Route>
     <Route name="Charts" handler={DetailsView}/>
     <Route name="Profile" handler={DetailsView}/>

@@ -13,5 +13,5 @@
 }
 
 .accordionWidgetShrinked {
-  1flex-shrink: 1;
+  flex-shrink: 1;
 }

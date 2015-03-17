@@ -13,42 +13,35 @@ require('models/car');
 /* data, SelectedId    */
 /* From CarsBox        */
 /***********************/
-/*
 
-handleClick: function (e) {
-  console.log("clicked inside car card");
-  var currentLocation = window.location.href;
-  var n1 = currentLocation.search("#");
-  var newLocation = currentLocation.slice(0, n1+1);
-  newLocation = newLocation + '/Details/' + this.props.data.attributes.id;
-  console.log("Location: " + newLocation);
-  console.log("Id: " + this.props.data.attributes.id);
-
-  window.location.href = newLocation;
-  window.location.assign(newLocation);
-},
-detailsClicked: function (e) {
-  e.stopPropagation();
-  location.hash = "/Details/" + this.props.data.get('id');
-},
-fillupsClicked: function (e) {
-  e.stopPropagation();
-  console.log('Inside fillups clicked');
-  location.hash = "/Details/" + this.props.data.get('id') + "/Fillups";
-},
-remindersClicked: function (e) {
-  e.stopPropagation();
-  location.hash = "/Details/" + this.props.data.get('id') + "/Reminders";
-}, */
+//
+// location.hash = "/Details/" + this.props.data.get('cid') + "/Fillups";
+// location.hash = "/Details/" + this.props.data.get('cid') + "/Reminders";
 
 var CarCard = React.createClass({
-
+  handleClick: function (e) {
+    console.log("clicked inside car card");
+    location.hash = "/Details/" + this.props.data.get('_id');
+  },
+  detailsClicked: function (e) {
+    e.stopPropagation();
+    location.hash = "/Details/" + this.props.data.get('_id');
+  },
+  fillupsClicked: function (e) {
+    e.stopPropagation();
+    console.log('Inside fillups clicked');
+    location.hash = "/Details/" + this.props.data.get('_id') + "/Fillups";
+  },
+  remindersClicked: function (e) {
+    e.stopPropagation();
+    location.hash = "/Details/" + this.props.data.get('_id') + "/Reminders";
+  },
   render: function() {
     var carCard = this.props.data;
     var selectedId = this.props.selectedId;
     var carCardClassName = "car_card HScrollEntry clearfix";
     var carStats = <div></div>;
-    if (selectedId == carCard.attributes.id) {
+    if (selectedId == carCard.get('_id')) {
       carCardClassName = "car_card HScrollEntry clearfix selected";
       carStats = <div>
         <div className="km_per_liter">
@@ -64,7 +57,7 @@ var CarCard = React.createClass({
       </div>;
     }
     return(
-      <div className={carCardClassName} >
+      <div className={carCardClassName} onClick={this.handleClick}>
         <p>{carCard.attributes.year} {carCard.attributes.brand} {carCard.attributes.model}</p>
         <h4>{carCard.attributes.name}</h4>
         <img className="car_image" alt="Car Image" src={carCard.attributes.pictureFile}></img>
