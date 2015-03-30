@@ -24,6 +24,7 @@ var remindersSchema = new mongoose.Schema({
 });
 
 var carsSchema = new mongoose.Schema({
+  _owner : { type: mongoose.Schema.ObjectId, ref: 'User' },
   year: Number,
   brand: String,
   model: String,
@@ -39,22 +40,167 @@ var usersSchema = new mongoose.Schema({
   name: String,
   country: String,
   postalCode: Number,
-  Cars: [carsSchema]
+  cars: [{ type: mongoose.Schema.ObjectId, ref: 'Car' }]
 });
 
 dbURI="mongodb://LazyDal:JarMikAnd479@ds051977.mongolab.com:51977/milleage"
 mongoose.connect(dbURI);
 
 var User = mongoose.model( 'User', usersSchema );
-var Cars = mongoose.model( 'Cars', carsSchema );
-var fillups = mongoose.model( 'fillups', fillupsSchema );
-var reminders = mongoose.model( 'reminders', remindersSchema );
+var Car = mongoose.model( 'Car', carsSchema );
+var Fillup = mongoose.model( 'Fillup', fillupsSchema );
+var Reminder = mongoose.model( 'Reminder', remindersSchema );
 
-// var user = new User({
+// var dalibor = new User({
 //   name: 'Dalibor Dragojevic',
 //   country: 'Serbia',
 //   postalCode: 13000
 // });
+//
+// dalibor.save(function (err) {
+//   if (err) {
+//     console.log('Error while saving user!');
+//   }
+//
+//   var ford = new Car({
+//     year: 2011,
+//     brand: "Ford",
+//     model: "Escort",
+//     name:"Пословна Кола",
+//     pictureFle:"img/car1",
+//     kmTraveled: 32,
+//     litresSpent: 12,
+//     _owner: dalibor._id
+//   });
+//   ford.save(function (err) {
+//     if (err) {
+//       console.log('Error while saving car!');
+//     }
+//   });
+//   var opel = new Car({
+//     year: 2011,
+//     brand: "Opel",
+//     model: "Meriva A",
+//     name:"Кућевна Кола",
+//     pictureFle:"img/car1",
+//     kmTraveled: 15,
+//     litresSpent: 6,
+//     _owner: dalibor._id
+//   });
+//   opel.save(function (err) {
+//    if (err) {
+//      console.log('Error while saving car!');
+//    }
+//   });
+//   console.log('New cars saved.');
+//   console.log('User Dalibor saved.');
+// });
+
+// var dalibor = User.findOne({'name' : 'Dalibor Dragojevic'});
+// dalibor.save(function (err) {
+//   if (err) {
+//     console.log('Error while saving user!');
+//   }
+//   console.log('User Dalibor saved');
+// });
+
+// User.remove({ name : /Dalibor/ } , function (err){
+//   if (!err){
+//     console.log('All users with "Dalibor" in their name were deleted.');
+//   }
+// });
+//
+
+
+
+//   var ford = new Car({
+//     year: 2011,
+//     brand: "Ford",
+//     model: "Escort",
+//     name:"Пословна Кола",
+//     pictureFle:"img/car1",
+//     kmTraveled: 32,
+//     litresSpent: 12,
+//     _owner: dalibor._id
+//   });
+//   var opel = new Car({
+//     year: 2011,
+//     brand: "Opel",
+//     model: "Meriva A",
+//     name:"Кућевна Кола",
+//     pictureFle:"img/car1",
+//     kmTraveled: 15,
+//     litresSpent: 6,
+//     _owner: dalibor._id
+//   });
+//   ford.save(function (err) {
+//    if (err) {
+//      console.log('Error while saving car!');
+//    }
+//   });
+//   opel.save(function (err) {
+//    if (err) {
+//      console.log('Error while saving car!');
+//    }
+//   });
+//   console.log('New data saved.');
+// })
+
+// 1: FIND the record
+  // User.findOne(
+  //   {name : 'Dalibor Dragojevic'},
+  //   function(err, user) {
+  //     if(!err){
+  //       // 2: EDIT the record
+  //       user.Cars.map(function (car) {
+  //         if (car.name == 'Кућевна Кола') {
+  //           car.fillups.push({
+  //             totalCost: 60, totalLiters: 50, fillingStation: "Zoran", odometer: 15826, date: new Date("Feb 7, 2015")
+  //           });
+  //         }
+  //       });
+  //       user.save( function( err ){
+  //         if(!err) {
+  //           console.log('User updated!');
+  //         }
+  //       });
+  //     }
+  // });
+
+  // var ford = Car.findOne({ brand: 'Ford' });
+  // ford.fillups.push({
+  //   totalCost: 60, totalLiters: 68, fillingStation: "Prle", odometer: 15455, date: new Date("Dec 25, 2014")
+  // });
+  // ford.fillups.push({
+  //   totalCost: 57, totalLiters: 42, fillingStation: "Krle", odometer: 15565, date: new Date("Jan 23, 2015")
+  // });
+  // ford.reminders.push({
+  //   reminderText: "Change tires",
+  //   dueDate: new Date("Feb 25, 2015")
+  // });
+  // ford.save( function( err ){
+  //   if(!err){
+  //     console.log('Ford fillups and reminders saved.');
+  //   }
+  // });
+  //
+  // var opel = Car.findOne({ brand: 'Opel' });
+  // opel.fillups.push({
+  //   totalCost: 60, totalLiters: 68, fillingStation: "Prle", odometer: 15455, date: new Date("Dec 25, 2014")
+  // });
+  // opel.fillups.push({
+  //   totalCost: 57, totalLiters: 42, fillingStation: "Krle", odometer: 15565, date: new Date("Jan 23, 2015")
+  // });
+  // opel.reminders.push({
+  //   reminderText: "Change tires",
+  //   dueDate: new Date("Feb 25, 2015")
+  // });
+  // opel.save( function( err ){
+  //   if(!err){
+  //     console.log('Opel fillups and reminders saved.');
+  //   }
+  // });
+
 //
 // user.save( function( err ){
 //   if(!err){
@@ -153,18 +299,15 @@ var reminders = mongoose.model( 'reminders', remindersSchema );
   // });
 
 app.get('/api/cars', function(req, res) {
-  User.findOne({'name' : 'Dalibor Dragojevic'}, // user called Dalibor Dragojevic
-    'Cars',
-    function (err, user) {
-      if (!err) {
-        console.log(user.Cars);
-        res.json(user.Cars);
-      } else {
-        console.log(err);
-        res.json({"status":"error", "error":"Error finding user"});
-      }
+  Car.find({}, function (err, cars) {
+    if (!err) {
+      console.log(cars);
+      res.json(cars);
+    } else {
+      console.log(err);
+      res.json({"status":"error", "error":"Error finding user"});
     }
-  );
+  });
 });
 
 app.listen(3000);

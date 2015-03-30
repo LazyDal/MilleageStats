@@ -2,7 +2,6 @@ var Backbone = require("backbone");
 
 var Car = Backbone.Model.extend({
   defaults: {
-    _id: '0',
     year: 2011,
 		brand: "Brand",
 		model: "Model",
@@ -11,6 +10,7 @@ var Car = Backbone.Model.extend({
 		kmTraveled: 0,
 		litresSpent: 0,
 		selected: false
-  }
+  },
+  idAttribute: '_id'
 });
 module.exports = Car;

@@ -21,23 +21,24 @@ require('models/car');
 var CarCard = React.createClass({displayName: "CarCard",
   handleClick: function (e) {
     console.log("clicked inside car card");
-    location.hash = "/Details/" + this.props.data.get('_id');
+    location.hash = "/Details/" + this.props.data.id;
   },
   detailsClicked: function (e) {
     e.stopPropagation();
-    location.hash = "/Details/" + this.props.data.get('_id');
+    location.hash = "/Details/" + this.props.data.id;
   },
   fillupsClicked: function (e) {
     e.stopPropagation();
     console.log('Inside fillups clicked');
-    location.hash = "/Details/" + this.props.data.get('_id') + "/Fillups";
+    location.hash = "/Details/" + this.props.data.id + "/Fillups";
   },
   remindersClicked: function (e) {
     e.stopPropagation();
-    location.hash = "/Details/" + this.props.data.get('_id') + "/Reminders";
+    location.hash = "/Details/" + this.props.data.id + "/Reminders";
   },
   render: function() {
     var carCard = this.props.data;
+    console.log("Car id:" + carCard.id);
     var selectedId = this.props.selectedId;
     var carCardClassName = "car_card HScrollEntry clearfix";
     var carStats = React.createElement("div", null);

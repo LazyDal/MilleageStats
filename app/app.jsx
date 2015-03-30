@@ -33,7 +33,7 @@ var App = React.createClass({
     if (this.state.synced) {
       console.log('From App: ');
       var carCards = this.state.cars.map(function (acar) {
-        console.log(acar);
+        console.log(acar.get("_id"));
       });
       console.log(this.state.cars);
       return (

@@ -19,8 +19,14 @@ var Reminders = React.createClass({
     render: function() {
       console.log('Inside Reminders');
       var reminderNodes = this.props.data.map(function (reminder) {
-        return (<p>{reminder.reminderText}</p>);
+        d = new Date(reminder.dueDate);
+        date = d.toDateString() + ' ' + d.toTimeString();
+        return (<div>
+                  <p>{reminder.reminderText}</p>
+                  <p>Due Date: {date}</p>
+                </div>);
       });
+
       return(
         <div>
           <p>Reminders</p>

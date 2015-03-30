@@ -30,7 +30,7 @@ var FillupsView = React.createClass({
     var fillupNodes = [];
     var detailNode = [];
     var selected = "";
-    that = this;
+    var that = this;
     _.each(this.props.data, function (fillup) {
       if (that.state.FillupId == fillup._id) {
         selected = "fillupSelected";

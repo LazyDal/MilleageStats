@@ -39,7 +39,6 @@ var AccordionWidget = React.createClass({displayName: "AccordionWidget",
   render: function () {
     console.log('inside AccordionWidget');
     var theCar = this.props.carsData.findWhere({_id: this.props.selectedCar});
-    // var theCar = this.props.carsData.get(this.props.selectedCar);
     var InnerNodes = [];
     InnerNodes.push(React.createElement(AccordionBar, {writeup: React.createElement("p", null, "Details"), className: "accordionWidgetDetails", onBarClick: this.handleClickOn1}));
     if (location.href.indexOf('Fillups') > 0) {

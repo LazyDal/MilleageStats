@@ -1,8 +1,9 @@
 var Backbone = require("backbone");
 var Reminder = Backbone.Model.extend({
   defaults: {
-    id: 1,
-    reminderText: ""
+    reminderText: "",
+    dueDate: 0
   },
+  idAttribute: '_id'
 });
 module.exports = Reminder;
