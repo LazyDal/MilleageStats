@@ -62,6 +62,9 @@ var Reminder = mongoose.model( 'Reminder', remindersSchema );
 //     console.log('Error while saving user!');
 //   }
 //
+
+// var dalibor = User.findOne({'name' : 'Dalibor Dragojevic'});
+//
 //   var ford = new Car({
 //     year: 2011,
 //     brand: "Ford",
@@ -70,8 +73,25 @@ var Reminder = mongoose.model( 'Reminder', remindersSchema );
 //     pictureFle:"img/car1",
 //     kmTraveled: 32,
 //     litresSpent: 12,
+//     fillups: [],
+//     reminders: [],
 //     _owner: dalibor._id
 //   });
+//     ford.fillups.push({
+//       totalCost: 60, totalLiters: 68, fillingStation: "Prle", odometer: 15455, date: new Date("Dec 25, 2014")
+//     });
+//     ford.fillups.push({
+//       totalCost: 57, totalLiters: 42, fillingStation: "Krle", odometer: 15565, date: new Date("Jan 23, 2015")
+//     });
+//     ford.reminders.push({
+//       reminderText: "Change tires",
+//       dueDate: new Date("Feb 25, 2015")
+//     });
+//     ford.save( function( err ){
+//       if(!err){
+//         console.log('Ford fillups and reminders saved.');
+//       }
+//     });
 //   ford.save(function (err) {
 //     if (err) {
 //       console.log('Error while saving car!');
@@ -85,6 +105,8 @@ var Reminder = mongoose.model( 'Reminder', remindersSchema );
 //     pictureFle:"img/car1",
 //     kmTraveled: 15,
 //     litresSpent: 6,
+//     fillups: [],
+//     reminders: [],
 //     _owner: dalibor._id
 //   });
 //   opel.save(function (err) {
@@ -93,10 +115,9 @@ var Reminder = mongoose.model( 'Reminder', remindersSchema );
 //    }
 //   });
 //   console.log('New cars saved.');
-//   console.log('User Dalibor saved.');
-// });
 
-// var dalibor = User.findOne({'name' : 'Dalibor Dragojevic'});
+
+
 // dalibor.save(function (err) {
 //   if (err) {
 //     console.log('Error while saving user!');
@@ -109,42 +130,7 @@ var Reminder = mongoose.model( 'Reminder', remindersSchema );
 //     console.log('All users with "Dalibor" in their name were deleted.');
 //   }
 // });
-//
 
-
-
-//   var ford = new Car({
-//     year: 2011,
-//     brand: "Ford",
-//     model: "Escort",
-//     name:"Пословна Кола",
-//     pictureFle:"img/car1",
-//     kmTraveled: 32,
-//     litresSpent: 12,
-//     _owner: dalibor._id
-//   });
-//   var opel = new Car({
-//     year: 2011,
-//     brand: "Opel",
-//     model: "Meriva A",
-//     name:"Кућевна Кола",
-//     pictureFle:"img/car1",
-//     kmTraveled: 15,
-//     litresSpent: 6,
-//     _owner: dalibor._id
-//   });
-//   ford.save(function (err) {
-//    if (err) {
-//      console.log('Error while saving car!');
-//    }
-//   });
-//   opel.save(function (err) {
-//    if (err) {
-//      console.log('Error while saving car!');
-//    }
-//   });
-//   console.log('New data saved.');
-// })
 
 // 1: FIND the record
   // User.findOne(
@@ -167,22 +153,6 @@ var Reminder = mongoose.model( 'Reminder', remindersSchema );
   //     }
   // });
 
-  // var ford = Car.findOne({ brand: 'Ford' });
-  // ford.fillups.push({
-  //   totalCost: 60, totalLiters: 68, fillingStation: "Prle", odometer: 15455, date: new Date("Dec 25, 2014")
-  // });
-  // ford.fillups.push({
-  //   totalCost: 57, totalLiters: 42, fillingStation: "Krle", odometer: 15565, date: new Date("Jan 23, 2015")
-  // });
-  // ford.reminders.push({
-  //   reminderText: "Change tires",
-  //   dueDate: new Date("Feb 25, 2015")
-  // });
-  // ford.save( function( err ){
-  //   if(!err){
-  //     console.log('Ford fillups and reminders saved.');
-  //   }
-  // });
   //
   // var opel = Car.findOne({ brand: 'Opel' });
   // opel.fillups.push({

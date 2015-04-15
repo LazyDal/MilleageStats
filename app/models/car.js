@@ -9,6 +9,8 @@ var Car = Backbone.Model.extend({
 		pictureFle: "img/car.jpg",
 		kmTraveled: 0,
 		litresSpent: 0,
+    reminders: [],
+    fillups: [],
 		selected: false
   },
   idAttribute: '_id'

@@ -4,9 +4,6 @@ var _ = require('underscore');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 
-var Reminder = require('models/reminder');
-var Reminders = require('collections/reminders');
-
 var AccordionBar = require('views/DetailsView/AccordionBar');
 var CarDetailsPane = require('views/DetailsView/CarDetailsPane');
 var Reminders = require('views/DetailsView/Reminders');
@@ -20,47 +17,62 @@ var FillupsView = require('views/DetailsView/FillupsView');
 // InnerNodes.push(<RouteHandler fillupsData={this.props.fillupsData} fillupsIndexes={that.props.carData.get('fillups')}  />);
 // InnerNodes.push(<CarDetailsPane data={this.props.carsData} remindersData={this.props.remindersData} className="accordionWidgetShrinked" />);
 
+// componentWillReceiveProps: function () {
+//   this.forceUpdate();
+// },
+
+// findWhere({_id:
+
 var AccordionWidget = React.createClass({
-  componentWillReceiveProps: function () {
-    this.forceUpdate();
+  getInitialState: function () {
+    return({selectedTab: 1});
   },
   handleClickOn1: function () {
     console.log('handleClickOn1');
     location.hash = "/Details/" + this.props.selectedCar;
+    this.setState({selectedTab: 1});
   },
   handleClickOn2: function () {
     console.log('handleClickOn2');
     location.hash = "/Details/" + this.props.selectedCar + "/Fillups";
+    this.setState({selectedTab: 2})
   },
   handleClickOn3: function () {
     console.log('handleClickOn3');
     location.hash = "/Details/" + this.props.selectedCar + "/Reminders";
+    this.setState({selectedTab: 3})
+  },
+  handleNewFillupForm: function (parameters) {
+    var theCar = this.props.carsData.get(this.props.selectedCar).get('fillups').push(parameters);
+    console.log(parameters);
+    location.hash = "/Details/" + this.props.selectedCar + "/Fillups";
+    this.forceUpdate();
   },
   render: function () {
     console.log('inside AccordionWidget');
-    var theCar = this.props.carsData.findWhere({_id: this.props.selectedCar});
+    var theCar = this.props.carsData.get(this.props.selectedCar);
     var InnerNodes = [];
     InnerNodes.push(<AccordionBar writeup={<p>Details</p>} className="accordionWidgetDetails" onBarClick={this.handleClickOn1} />);
-    if (location.href.indexOf('Fillups') > 0) {
+    if (this.state.selectedTab == 2) {
       InnerNodes.push(<AccordionBar writeup={<p>Fillups</p>} className="accordionWidgetFillups" onBarClick={this.handleClickOn2} />);
       console.log('Calling FillupsView');
       console.log(theCar);
-      InnerNodes.push(<FillupsView data={theCar.get('fillups')} selectedCar={this.props.selectedCar}/>);
+      InnerNodes.push(<RouteHandler fillups={theCar.get('fillups')} selectedCar={this.props.selectedCar} handleNewFillupForm={this.handleNewFillupForm}/>);
       InnerNodes.push(<AccordionBar writeup={<p>Reminders</p>} className="accordionWidgetReminders" onBarClick={this.handleClickOn3} />);
     }
-    else if (location.href.indexOf('Reminders') > 0) {
+    else if (this.state.selectedTab == 3) {
       InnerNodes.push(<AccordionBar writeup={<p>Fillups</p>} className="accordionWidgetFillups" onBarClick={this.handleClickOn2} />);
       InnerNodes.push(<AccordionBar writeup={<p>Reminders</p>} className="accordionWidgetReminders" onBarClick={this.handleClickOn3} />);
       console.log(this.props.selectedCar);
       console.log(theCar);
       console.log('remindersData:' + theCar.get('reminders'));
-      InnerNodes.push(<Reminders data={theCar.get('reminders')} />);
+      InnerNodes.push(<RouteHandler reminders={theCar.get('reminders')} />);
 
     }
     else {
       var carName = this.props.carsData.get('name');
       console.log('Car name from accordion:' + carName);
-      InnerNodes.push("<p>CarDetailsPane</p>");
+      InnerNodes.push(<CarDetailsPane data={theCar} />);
       InnerNodes.push(<AccordionBar writeup={<p>Fillups</p>} className="accordionWidgetFillups" onBarClick={this.handleClickOn2} />);
       InnerNodes.push(<AccordionBar writeup={<p>Reminders</p>} className="accordionWidgetReminders" onBarClick={this.handleClickOn3} />);
     }

@@ -4,11 +4,18 @@ var WellcomeBox = require('views/DashboardView/WellcomeBox');
 var CarsPane = require('views/DashboardView/CarsPane');
 
 var DashboardView = React.createClass({
+  componentWillReceiveProps: function () {
+    this.forceUpdate();
+  },
+  handleNewCar: function (newCar) {
+    this.props.handleNewCar(newCar);
+    return;
+  },
   render: function() {
     return(
       <div className = "contentSection">
         <WellcomeBox />
-        <CarsPane data={this.props.carsData} />
+        <RouteHandler data={this.props.carsData} handleNewCar={this.handleNewCar}/>
       </div>
     );
   }

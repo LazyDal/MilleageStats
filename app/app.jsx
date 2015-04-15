@@ -11,12 +11,19 @@ var Cars = require('collections/cars');
 var HeaderComponent = require('views/HeaderComponent');
 var DetailsView = require('views/DetailsView');
 var DashboardView=require('views/DashboardView');
+var CarsPane=require('views/DashboardView/CarsPane');
+var CarDetailsPane=require('views/DashboardView/CarsPane');
+var NewCarForm=require('views/DashboardView/NewCarForm');
+var EditCarForm=require('views/DetailsView/EditCarForm');
 var AccordionWidget = require('views/DetailsView/AccordionWidget');
 var Reminders = require('views/DetailsView/Reminders');
 var FillupsView = require('views/DetailsView/FillupsView');
 var FillupDetailsView = require('views/DetailsView/FillupDetailsView');
+var NewFillupForm = require('views/DetailsView/NewFillupForm');
 
 var theCars = new Cars();
+
+theCars.fetch();
 
 var App = React.createClass({
   getInitialState: function () {
@@ -24,10 +31,22 @@ var App = React.createClass({
   },
   componentDidMount: function () {
     theCars.on('sync', function() {
+      console.log("synced");
       this.setState({cars: theCars, synced: true});
     }.bind(this));
+    this.setState({cars: theCars, synced: true});
+  },
+  handleNewCar: function (newCar) {
+    console.log("Inside handleNewCar");
+    theCars.add(newCar);
+    this.setState({cars:theCars, synced:true});
+    location.hash="/Dashboard";
+  },
+  handleEditCar: function () {
 
-    theCars.fetch();
+  },
+  handleDeleteCar: function () {
+
   },
   render: function () {
     if (this.state.synced) {
@@ -39,7 +58,7 @@ var App = React.createClass({
       return (
         <div>
           <HeaderComponent />
-          <RouteHandler carsData={this.state.cars} />
+          <RouteHandler carsData={this.state.cars} handleNewCar={this.handleNewCar} handleEditCar={this.handleEditCar} handleDeleteCar={this.handleDeleteCar} />
         </div>
       );
     }
@@ -53,12 +72,19 @@ var routes = (
   <Route name="App" path="/" handler={App}>
     <Route name="Details" path="Details" handler={DetailsView}>
       <Route name="CarDetails" path=":CarId" handler={AccordionWidget} >
+        <Route name="CarDetailsPane" path="" handler={CarDetailsPane} />
         <Route name="Reminders" path="Reminders" handler={Reminders} />
         <Route name="Fillups" path="Fillups" handler={FillupsView} >
           <Route name="FillupDetails" path=":FillupId" handler={FillupDetailsView} />
         </Route>
+        <Route name="NewFillup" path="NewFillup" handler={NewFillupForm} />
       </Route>
+      <Route name="EditCar" path=":CarId/EditCar" handler={EditCarForm} />
     </Route>
+    <Route name="Dashboard" handler={DashboardView}>
+      <Route name="Cars" path="Cars" handler={CarsPane} />
+    </Route>
+    <Route name="NewCar" path="NewCar" handler={NewCarForm} />
     <Route name="Charts" handler={DetailsView}/>
     <Route name="Profile" handler={DetailsView}/>
     <Route name="Sign-out" handler={DetailsView}/>

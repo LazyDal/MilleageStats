@@ -1,7 +1,5 @@
 var React = require('react');
 var Backbone = require('backbone');
-var Fillups = require('collections/fillups')
-var Fillup = require('models/fillup')
 
 var FillupDetailsView = React.createClass({
   render: function () {
@@ -19,6 +17,8 @@ var FillupDetailsView = React.createClass({
         <h4>{this.props.data.odometer}</h4>
         <p>Date</p>
         <h4>{date}</h4>
+        <button type="button" className="btn btn-default">Edit</button>
+        <button type="button" className="btn btn-default">Delete</button>
       </div>
     );
   }

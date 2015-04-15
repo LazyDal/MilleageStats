@@ -27,12 +27,18 @@ var DetailsView = React.createClass({
   componentWillReceiveProps: function () {
     this.setState({CarId: this.getParams().CarId});
   },
+  handleEditCar: function (parameters, selectedCar) {
+    var car = this.props.carsData.get(selectedCar);
+    console.log("parameters:" + parameters.name);
+    car.set({name: parameters.name, brand:parameters.brand, model:parameters.model, kmTraveled:parameters.odometer, litresSpent:parameters.litres});
+    this.setState({CarId: this.getParams().CarId});
+  },
   render: function() {
     console.log('inside Details render');
     return(
       <div className = "contentSection">
         <CarsBox data={this.props.carsData} selectedId={this.state.CarId} />
-        <RouteHandler carsData={this.props.carsData} selectedCar={this.state.CarId} />
+        <RouteHandler carsData={this.props.carsData} selectedCar={this.state.CarId} handleEditCar={this.handleEditCar}/>
       </div>
     );
   }
