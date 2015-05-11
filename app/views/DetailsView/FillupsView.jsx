@@ -18,7 +18,8 @@ var FillupsView = React.createClass({
   getInitialState: function (FillupId) {
     return ({FillupId: ''});
   },
-  handleClick: function (FillupId) {
+  handleClick: function (e, FillupId) {
+    e.stopPropagation();
     this.setState({FillupId: FillupId});
     this.transitionTo('/Details/' + this.getParams().CarId + '/Fillups/' + FillupId);
   },
@@ -31,6 +32,7 @@ var FillupsView = React.createClass({
     var detailsNode = [];
     var selected = "";
     var that = this;
+  
     var fillupsView = new FillupsCollection(this.props.fillups);
     var sortedFillupsView = fillupsView.sortBy('date');
     sortedFillupsView.map(function (fillup) {
@@ -39,11 +41,12 @@ var FillupsView = React.createClass({
         detailsNode = <RouteHandler fillup={fillup} handleEditFillup={that.props.handleEditFillup} handleDeleteFillup={that.props.handleDeleteFillup}/>
       }
       else selected = "";
-      fillupNodes.push(<FillupView className="fillup" fillup={fillup} onFillupClick={that.handleClick} sel={selected} /> );
+      fillupNodes.push(<FillupView fillup={fillup} onFillupClick={that.handleClick} sel={selected} /> );
     });
     if (location.hash.indexOf('New') > 0) {
       detailsNode = <NewFillupForm handleNewFillup={this.props.handleNewFillup} />
     }
+    console.log(fillupNodes);
     return(
       <div>
         <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">

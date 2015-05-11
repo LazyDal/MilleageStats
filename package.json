@@ -14,24 +14,26 @@
     "buildjsx:SummaryStatistics": "jsx app/views-jsx/DashboardView/SummaryStatistics.jsx > app/views/DashboardView/SummaryStatistics.js",
     "buildjsx:CarsPane": "jsx app/views-jsx/DashboardView/CarsPane.jsx > app/views/DashboardView/CarsPane.js",
     "buildjsx:NewCarForm": "jsx app/views-jsx/DashboardView/NewCarForm.jsx > app/views/DashboardView/NewCarForm.js",
-    "buildjsx:DetailsView": "npm run buildjsx:CarDetailsPane && npm run bulidjsx:EditCarForm && npm run buildjsx:AccordionWidget && jsx app/views-jsx/DetailsView.jsx > app/views/DetailsView.js",
-    "buildjsx:AccordionWidget": "npm run buildjsx:AccordionBar && npm run buildjsx:CarDetailsPane && npm run buildjsx:FillupsView && npm run buildjsx:Reminders && jsx app/views-jsx/DetailsView/AccordionWidget.jsx > app/views/DetailsView/AccordionWidget.js",
+    "buildjsx:DetailsView": "npm run buildjsx:CarDetailsTab && npm run buildjsx:EditCarForm && npm run buildjsx:AccordionWidget && jsx app/views-jsx/DetailsView.jsx > app/views/DetailsView.js",
+    "buildjsx:AccordionWidget": "npm run buildjsx:AccordionBar && npm run buildjsx:CarDetailsTab && npm run buildjsx:FillupsView && npm run buildjsx:Reminders && jsx app/views-jsx/DetailsView/AccordionWidget.jsx > app/views/DetailsView/AccordionWidget.js",
     "buildjsx:AccordionBar": "jsx app/views-jsx/DetailsView/AccordionBar.jsx > app/views/DetailsView/AccordionBar.js",
-    "buildjsx:CarDetailsPane": " jsx app/views-jsx/DetailsView/CarDetailsPane.jsx > app/views/DetailsView/CarDetailsPane.js",
+    "buildjsx:CarDetailsTab": " jsx app/views-jsx/DetailsView/CarDetailsTab.jsx > app/views/DetailsView/CarDetailsTab.js",
     "buildjsx:EditCarForm": "jsx app/views-jsx/DetailsView/EditCarForm.jsx > app/views/DetailsView/EditCarForm.js",
     "buildjsx:Reminders": "jsx app/views-jsx/DetailsView/Reminders.jsx > app/views/DetailsView/Reminders.js",
-    "buildjsx:FillupsView": "npm run buildjsx:FillupView && npm run buildjsx:FillupDetailsView && npm run buildjsx:NewFillupForm && jsx app/views-jsx/DetailsView/FillupsView.jsx > app/views/DetailsView/FillupsView.js",
+    "buildjsx:FillupsView": "npm run buildjsx:FillupView && npm run buildjsx:FillupDetailsView && npm run buildjsx:NewFillupForm && npm run buildjsx:EditFillupForm && jsx app/views-jsx/DetailsView/FillupsView.jsx > app/views/DetailsView/FillupsView.js",
     "buildjsx:NewFillupForm": "jsx app/views-jsx/DetailsView/NewFillupForm.jsx >  app/views/DetailsView/NewFillupForm.js",
+    "buildjsx:EditFillupForm": "jsx app/views-jsx/DetailsView/EditFillupForm.jsx >  app/views/DetailsView/EditFillupForm.js",
     "buildjsx:FillupView": "jsx app/views-jsx/DetailsView/FillupView.jsx > app/views/DetailsView/FillupView.js",
     "buildjsx:FillupDetailsView": "jsx app/views-jsx/DetailsView/FillupDetailsView.jsx > app/views/DetailsView/FillupDetailsView.js",
     "buildjsx:CarsBox": "npm run buildjsx:CarCard && jsx app/views-jsx/CarsBox.jsx > app/views/CarsBox.js",
     "buildjsx:CarCard": "npm run buildjsx:CarStats && jsx app/views-jsx/CarCard.jsx > app/views/CarCard.js",
     "buildjsx:CarStats": "jsx app/views-jsx/CarStats.jsx > app/views/CarStats.js",
     "buildjsx:app": "jsx app/app.jsx > app/app.js",
-    "build:webpack": "webpack app/app.js static/js/bundle.js",
+    "build:webpack": "webpack app/app.jsx static/js/bundle.js --module-bind jsx --watch",
     "build": "npm run buildjsx:CarsBox && npm run buildjsx:HeaderComponent && npm run buildjsx:DashboardView && npm run buildjsx:DetailsView && npm run buildjsx:app && npm run build:webpack",
     "test": "jest",
-    "start": "node server.js"
+    "start": "node server.js",
+    "startdev": "node devserver.js"
   },
   "repository": {
     "type": "git",
@@ -50,9 +52,14 @@
     "jquery": "~2.1.3",
     "react": "~0.12.2",
     "underscore": "~1.8.2",
-    "react-router": "~0.12.4"
+    "react-router": "~0.12.4",
+    "jquery-ui": "~1.10.5"
   },
   "devDependencies": {
-    "jest-cli": "~0.4.0"
+    "jest-cli": "~0.4.0",
+    "react-hot-loader": "~1.2.6",
+    "webpack": "~1.8.11",
+    "jsx-loader": "~0.13.2",
+    "webpack-dev-server": "~1.8.2"
   }
 }

@@ -4,7 +4,7 @@ var SelectedLayout = React.createClass({
   render: function() {
     return(
       <div className="selectedLayout">
-        <p>New text</p>
+        <h1>New text</h1>
       </div>
     );
   }

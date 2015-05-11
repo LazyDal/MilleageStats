@@ -6,8 +6,8 @@ var WellcomeBox = require('views/DashboardView/WellcomeBox.jsx');
 var CarsPane = require('views/DashboardView/CarsPane.jsx');
 
 var DashboardView = React.createClass({
-  componentWillReceiveProps: function () {
-    this.forceUpdate();
+  getInitialState: function () {
+    return ({SelectedView: 0});
   },
   handleNewCar: function (newCar) {
     this.props.handleNewCar(newCar);

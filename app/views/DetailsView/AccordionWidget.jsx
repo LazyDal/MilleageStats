@@ -24,57 +24,83 @@ var Fillups = require('collections/fillups');
   //   this.forceUpdate();
   // },
 
+// this.transitionTo('/Details/' + this.getParams().CarId + '/Reminders');
 
 var AccordionWidget = React.createClass({
   mixins: [Navigation, Router.State],
-  handleClickOn1: function () {
-    console.log('handleClickOn1');
-    this.transitionTo('/Details/' + this.getParams().CarId);
+  animateReminder: function () {
+    this.transitionTo('/Details/' + this.getParams().CarId + '/Reminders');
   },
-  handleClickOn2: function () {
-    console.log('handleClickOn2');
-     this.transitionTo('/Details/' + this.getParams().CarId + '/Fillups');
+  animateFillups: function () {
+    this.transitionTo('/Details/' + this.getParams().CarId + '/Fillups');
   },
-  handleClickOn3: function () {
-    console.log('handleClickOn3');
-     this.transitionTo('/Details/' + this.getParams().CarId + '/Reminders');
+  animateDetails: function () {
+     this.transitionTo('/Details/' + this.getParams().CarId);
+  },
+  handleClickOnDetails: function () {
+    setTimeout(this.animateDetails, 700);
+    $(this.refs.fillups.getDOMNode()).removeClass("fillupsLeft");
+    $(this.refs.reminders.getDOMNode()).removeClass("remindersLeft");
+    $(this.refs.fillups.getDOMNode()).removeAttr("style");
+    $(this.refs.reminders.getDOMNode()).removeAttr("style");
+    $(this.refs.fillups.getDOMNode()).addClass("fillupsRight");
+    $(this.refs.reminders.getDOMNode()).addClass("remindersRight");
+  },
+  handleClickOnFillups: function () {
+    setTimeout(this.animateFillups, 700);
+    $(this.refs.fillups.getDOMNode()).css("left", "50px");
+    $(this.refs.reminders.getDOMNode()).removeClass("remindersLeft");
+    $(this.refs.reminders.getDOMNode()).removeAttr("style");
+    $(this.refs.reminders.getDOMNode()).addClass("remindersRight");
+  },
+  handleClickOnReminders: function () {
+    setTimeout(this.animateReminder, 700);
+    $( this.refs.fillups.getDOMNode()).css("left", "50px");
+    $( this.refs.reminders.getDOMNode()).css("left", "100px");
   },
   render: function () {
     console.log('inside AccordionWidget');
     console.log('Function: ' + this.props.handleNewFillup);
     var theCar = this.props.carsData.get(this.getParams().CarId);
+    console.log('The car: ' + theCar);
     var InnerNodes = [];
-    InnerNodes.push(<AccordionBar writeup={<p>Details</p>} className="accordionWidgetDetails" onBarClick={this.handleClickOn1} />);
-    if (location.hash.indexOf('Fillup') > 0) {
-      InnerNodes.push(<AccordionBar writeup={<p>Fillups</p>} className="accordionWidgetFillups" onBarClick={this.handleClickOn2} />);
-      console.log('Calling FillupsView');
-      InnerNodes.push(<RouteHandler fillups={theCar.get('fillups')} handleNewFillup={this.props.handleNewFillup} handleEditFillup={this.props.handleEditFillup} handleDeleteFillup={this.props.handleDeleteFillup}  />);
-      InnerNodes.push(<AccordionBar writeup={<p>Reminders</p>} className="accordionWidgetReminders" onBarClick={this.handleClickOn3} />);
+    if (location.hash.indexOf('Fillups') > 0)  {
+      InnerNodes.push(<div className="accordionWidgetDetails" onClick={this.handleClickOnDetails}></div>);
+      InnerNodes.push(<div className="accordionWidgetFillups fillupsLeft" onClick={this.handleClickOnFillups} ref="fillups" >
+        <RouteHandler fillups={theCar.get('fillups')} handleNewFillup={this.props.handleNewFillup} handleEditFillup={this.props.handleEditFillup} handleDeleteFillup={this.props.handleDeleteFillup}  />
+      </div>);
+      InnerNodes.push(<div className="accordionWidgetReminders remindersRight"  onClick={this.handleClickOnReminders} ref="reminders" ></div>);
     }
-    else if (location.hash.indexOf('Reminders') > 0) {
-      InnerNodes.push(<AccordionBar writeup={<p>Fillups</p>} className="accordionWidgetFillups" onBarClick={this.handleClickOn2} />);
-      InnerNodes.push(<AccordionBar writeup={<p>Reminders</p>} className="accordionWidgetReminders" onBarClick={this.handleClickOn3} />);
-      console.log(this.getParams().CarId);
-      console.log(theCar);
-      console.log('remindersData:' + theCar.get('reminders'));
-      InnerNodes.push(<RouteHandler reminders={theCar.get('reminders')} handleNewReminder={this.props.handleNewReminder} handleEditReminder={this.props.handleEditReminder} handleDeleteReminder={this.props.handleDeleteReminder} />);
-
+    else if (location.hash.indexOf('Reminders') > 0)  {
+      InnerNodes.push(<div className="accordionWidgetDetails" onClick={this.handleClickOnDetails}></div>);
+      InnerNodes.push(<div className="accordionWidgetFillups fillupsLeft" onClick={this.handleClickOnFillups} ref="fillups" ></div>);
+      InnerNodes.push(<div className="accordionWidgetReminders remindersLeft" onClick={this.handleClickOnReminders} ref="reminders">
+        <RouteHandler reminders={theCar.get('reminders')} handleNewReminder={this.props.handleNewReminder} handleEditReminder={this.props.handleEditReminder} handleDeleteReminder={this.props.handleDeleteReminder} />
+      </div>);
     }
-    else if (theCar != undefined) {
+    else {
       var carName = theCar.get('name');
       console.log('Car name from accordion:' + carName);
-      InnerNodes.push(<RouteHandler data={theCar} handleEditCar={this.props.handleEditCar} handleDeleteCar={this.props.handleDeleteCar}/>);
-      InnerNodes.push(<AccordionBar writeup={<p>Fillups</p>} className="accordionWidgetFillups" onBarClick={this.handleClickOn2} />);
-      InnerNodes.push(<AccordionBar writeup={<p>Reminders</p>} className="accordionWidgetReminders" onBarClick={this.handleClickOn3} />);
+      InnerNodes.push(<div className="accordionWidgetDetails" onClick={this.handleClickOnDetails}>
+        <RouteHandler data={theCar} handleEditCar={this.props.handleEditCar} handleDeleteCar={this.props.handleDeleteCar} />
+      </div>);
+      InnerNodes.push(<div className="accordionWidgetFillups fillupsRight"  onClick={this.handleClickOnFillups} ref="fillups" ></div>);
+      InnerNodes.push(<div className="accordionWidgetReminders remindersRight"   onClick={this.handleClickOnReminders} ref="reminders"></div>);
     }
     return (
-      <div className="col-xs-12 col-sm-10 col-md-10 col-lg-10 accordionWidget">
-        {InnerNodes}
+      <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+        <div className="accordionWidget">
+          <div className="accordionWidgetInnerBox">
+            {InnerNodes}
+          </div>
+        </div>
       </div>
     );
   }
 });
 module.exports = AccordionWidget;
+
+        // 
 
 // InnerNodes.push(<RouteHandler fillupsData={this.props.fillupsData} fillupsIndexes={that.props.carData.get('fillups')}  />);
 // InnerNodes.push(<CarDetailsPane data={this.props.carsData} remindersData={this.props.remindersData} className="accordionWidgetShrinked" />);

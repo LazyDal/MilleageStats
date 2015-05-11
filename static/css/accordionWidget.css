@@ -1,17 +1,124 @@
-@media all and (min-width : 768px) {
+
   .accordionWidget {
-    display:flex;
-    overflow: hidden;
+    position: relative;
+	padding: 9px;
+  	overflow: hidden;
+
+    	border: 1px solid #bababa;
+    border: 1px solid rgba( 233, 233, 233, 0.8 );
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    
+    box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -webkit-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -moz-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -o-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+}
+
+@media all and (min-width : 986px) {
+	.accordionWidget {
+    		width: 795px;
+    		 height: 642px;
+  	}
+ }
+@media all and (max-width : 986px) {
+  .accordionWidget {
+     width: 410px;
+     height: 1120px;
   }
 }
 
-@media all and (max-width : 768px) {
-  .accordionWidget {
-    display:block;
+.accordionWidgetInnerBox {
+	position:absolute;
+	left:8px;
+	top:8px;
+
+    	border: 1px solid #bababa;
+    border: 1px solid rgba( 233, 233, 233, 0.8 );
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    
+    box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -webkit-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -moz-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -o-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+
     overflow: hidden;
-  }
 }
 
-.accordionWidgetShrinked {
-  flex-shrink: 1;
+@media all and (min-width : 986px) {
+	.accordionWidgetInnerBox {
+		width: 774px;
+		height: 624px;
+	}
+}
+
+@media all and (max-width : 986px) {
+	.accordionWidgetInnerBox {
+		width: 390px;
+		height: 1100px;
+	}
+}
+
+.accordionWidgetDetails, .accordionWidgetFillups, .accordionWidgetReminders {
+	position: absolute;
+	    overflow: hidden;
+}
+.accordionWidgetDetails {
+	background-color: #bbb;
+	background-image: url(http://localhost:3000/images/details-pane.jpg);
+	-webkit-transition: left 0.7s; /* Safari */
+    	transition: left 0.7s;
+}
+.accordionWidgetFillups {
+	background-color: #999;
+	background-image: url(http://localhost:3000/images/fillups-pane.jpg);
+	-webkit-transition: left 0.7s; /* Safari */
+    	transition: left 0.7s;
+}
+.accordionWidgetReminders {
+	background-color: #777;
+	background-image: url(http://localhost:3000/images/reminders-pane.jpg);
+	-webkit-transition: left 0.7s; /* Safari */
+    	transition: left 0.7s;
+}
+
+.fillupsLeft {
+	left: 50px;
+}
+.remindersLeft {
+	left: 100px;
+}
+@media all and (min-width : 986px) {
+	.remindersRight {
+		left:720px;
+	}
+	.fillupsRight {
+		left:674px;
+	}
+}
+@media all and (max-width : 986px) {
+	.remindersRight {
+		left:355px;
+	}
+	.fillupsRight {
+		left:320px;
+	}
+}
+@media all and (min-width : 986px) {
+	.accordionWidgetDetails, .accordionWidgetFillups, .accordionWidgetReminders {
+		width: 676px;
+		height: 624px;
+	}
+}
+
+@media all and (max-width : 986px) {
+	.accordionWidgetDetails, .accordionWidgetFillups, .accordionWidgetReminders {
+		width: 342px;
+		height: 1100px;
+	}
 }

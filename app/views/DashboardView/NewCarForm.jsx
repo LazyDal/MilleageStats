@@ -32,7 +32,7 @@ var NewCarForm = React.createClass({
       <form className="contentSection" onSubmit={this.handleSubmit}>
         <input type="text" placeholder="Car Brand" ref="brand" /><br />
         <input type="text" placeholder="Car Model" ref="model" /><br />
-        <input type="text" placeholder="Car Year" ref="year" /><br />
+        <input type="text" placeholder="year-month-day" ref="year" /><br />
         <input type="text" placeholder="Car Name" ref="name" /><br />
         <input type="text" placeholder="Odometer" ref="odometer" /><br />
         <input type="text" placeholder="Litres" ref="litres" /><br />

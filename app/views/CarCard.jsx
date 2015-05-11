@@ -1,5 +1,6 @@
 var React = require('react');
 var Backbone = require("backbone");
+var Router = require("react-router");
 var Navigation = require("react-router").Navigation;
 
 require('models/car');
@@ -15,8 +16,12 @@ require('models/car');
 /* From CarsBox        */
 /***********************/
 
+// <img className="car_image" alt="Car Image" src={carCard.attributes.pictureFile}></img>
+
+// className={this.props.selectedView==1 ? 'active': ''}
+
 var CarCard = React.createClass({
-  mixins: [Navigation],
+  mixins: [Navigation, Router.State],
   handleClick: function (e) {
     e.stopPropagation();
     console.log("clicked inside car card");
@@ -24,50 +29,70 @@ var CarCard = React.createClass({
   },
   detailsClicked: function (e) {
     e.stopPropagation();
-    console.log('detailsClicked');
-    this.transitionTo('/Details/' + this.props.data.id);
+    this.transitionTo('/Details/' + this.props.data.get('_id'));
   },
   fillupsClicked: function (e) {
     e.stopPropagation();
-    console.log('Inside fillups clicked');
-    console.log('detailsClicked');
-    this.transitionTo('/Details/' + this.props.data.id + "/Fillups");
+    this.transitionTo('/Details/' + this.props.data.get('_id') + "/Fillups");
   },
   remindersClicked: function (e) {
     e.stopPropagation();
-    console.log('reminderssClicked');
-    location.hash = "/Details/" + this.props.data.id + "/Reminders";
+    this.transitionTo("/Details/" + this.props.data.get('_id') + "/Reminders");
   },
   render: function() {
     var carCard = this.props.data;
     console.log("Car id:" + carCard.id);
-    var selectedId = this.props.selectedId;
-    var carCardClassName = "car_card HScrollEntry clearfix";
+    var carCardClassName = "vehicle HScrollEntry clearfix";
     var carStats = <div></div>;
-    if (selectedId == carCard.get('_id')) {
-      carCardClassName = "car_card HScrollEntry clearfix selected";
-      carStats = <div>
-        <div className="km_per_liter">
-        <h1>{carCard.attributes.kmTraveled/carCard.attributes.litresSpent}</h1>
-        <p>mpg</p>
+    if (this.getParams().CarId == carCard.get('_id')) {
+      carCardClassName = "vehicle HScrollEntry clearfix selected";
+      carStats = 
+      <div className="car-stats clearfix">
+         <div className="Km_Per_Liter">
+           <p className='quantity'>{Math.round(carCard.attributes.kmTraveled/carCard.attributes.litresSpent)}</p>
+           <p className='unit'>kpl</p>
+         </div>
+         <div className="per_km_per_month clearfix">
+            <div className="Cost-Per-Km">
+              <h4 className='quantity'>18$</h4>
+              <p className="unit">per km</p>
+            </div>
+            <div className='Cost-Per-Month'>
+              <p className = 'quantity'>$215</p>
+              <p className="unit">per month</p>
+            </div>
         </div>
-        <div className="per_mile_per_month">
-        <h4>18$</h4>
-        <p>per mile</p>
-        <h3>$215</h3>
-        <p>per month</p>
-        </div>
-      </div>;
+      </div>
     }
     return(
       <div className={carCardClassName} onClick={this.handleClick}>
-        <p>{carCard.attributes.year} {carCard.attributes.brand} {carCard.attributes.model}</p>
-        <h4>{carCard.attributes.name}</h4>
-        <img className="car_image" alt="Car Image" src={carCard.attributes.pictureFile}></img>
-        <div className="car_buttons">
-          <button type="button" className="btn btn-default" onClick={this.detailsClicked}>Details</button>
-          <button type="button" className="btn btn-default" onClick={this.fillupsClicked}>Fill ups</button>
-          <button type="button" className="btn btn-default" onClick={this.remindersClicked}>Reminders</button>
+        <div className="header">
+            <div className="glass">
+              <p className="data-model">{carCard.attributes.year} {carCard.attributes.brand} {carCard.attributes.model}</p>
+              <p className="data-name">{carCard.attributes.name}</p>
+            </div>
+            <div className="overlay">
+            </div>
+        </div>
+        <div className="middleSection">
+          <img className="car_image" alt="Car Image" src='images/vehicle.png'></img>
+          <div className="car_buttons">
+            <button type="button" className={this.props.detailsClassName} onClick={this.detailsClicked} >
+              <div className="glass"></div>
+              <div className="hover"></div>
+              <div className="details"></div>
+            </button>
+            <button type="button" className={this.props.fillupsClassName} onClick={this.fillupsClicked} >
+              <div className="glass"></div>
+              <div className="hover"></div>
+              <div className="fillups"></div>
+            </button>
+            <button type="button" className={this.props.remindersClassName} onClick={this.remindersClicked} >
+              <div className="glass"></div>
+              <div className="hover"></div>
+              <div className="reminders"></div>
+            </button>
+          </div>
         </div>
        {carStats}
       </div>

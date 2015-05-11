@@ -6,11 +6,22 @@ var Menu = React.createClass({
   render: function() {
     return(
       <div className="menu">
-        <Link to="App">Dashboard</Link>
-        <Link to="Details">Details</Link>
-        <Link to="Profile">Profile</Link>
-        <Link to="Charts">Charts</Link>
-        <Link to="Sign-out">Sign-out</Link>
+        <div className="nav">
+          <Link to="Sign-out">Sign-out ]</Link>
+        </div>
+        <div className="nav">
+          <Link to="Charts">Charts |</Link>
+        </div>
+        <div className="nav">
+          <Link to="Profile">Profile |</Link>
+        </div>
+        <div className="nav">
+          <Link to="Details">Details |</Link>
+        </div>
+        <div className="nav">
+          <Link to="App">[ Dashboard |</Link>
+        </div>
+
       </div>
     );
   }

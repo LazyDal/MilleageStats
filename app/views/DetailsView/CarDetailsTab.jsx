@@ -30,7 +30,7 @@ var CarDetailsTab = React.createClass({
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
           <CarStats data={this.props.data} />
           <div id="reminders_view">
-            <Reminders reminders={this.props.data.get('reminders')} />
+            Here goes all due reminders
           </div>
         </div>
       </div>

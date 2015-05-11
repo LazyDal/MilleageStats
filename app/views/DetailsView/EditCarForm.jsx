@@ -17,12 +17,12 @@ var EditCarForm = React.createClass({
     var litres = this.refs.litres.getDOMNode().value.trim();
 
     var theCar = this.props.data;
-    if (brand="") brand = theCar.get('brand');
-    if (model="") model = theCar.get('model');
-    if (year="") year = theCar.get('year');
-    if (name="") name = theCar.get('name');
-    if (odometer="") odometer = theCar.get('kmTraveled');
-    if (litres="") litres=theCar.get('litresSpent');
+    if (brand=="") brand = theCar.get('brand');
+    if (model=="") model = theCar.get('model');
+    if (year=="") year = theCar.get('year');
+    if (name=="") name = theCar.get('name');
+    if (odometer=="") odometer = theCar.get('kmTraveled');
+    if (litres=="") litres=theCar.get('litresSpent');
 
     this.props.handleEditCar({brand: brand, model:model, year: year, name:name, kmTraveled:odometer, litresSpent:litres}, this.getParams().CarId);
 

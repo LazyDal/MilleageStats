@@ -1,12 +1,17 @@
 var React = require('react');
 var Backbone = require('backbone');
 var Router = require('react-router');
+var $=require('jquery');
+require('jquery-ui');
 
 // TODO: send request to the server
 // this.props.handleEditCar(new Car({brand: brand, model:model, name:name, kmTraveled:odometer, litresSpent:litres}));
 
 var EditReminderForm = React.createClass({
-   mixins: [Router.State],
+  mixins: [Router.State],
+  componentDidMount: function () {
+   $( this.refs.date.getDOMNode()).datepicker();
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     console.log("Handling Edit Fillup submit");
@@ -14,8 +19,8 @@ var EditReminderForm = React.createClass({
     var dueDate = this.refs.dueDate.getDOMNode().value.trim();
 
     var reminder = this.props.reminder;
-    if (reminderText = "") reminderText=reminder.get('reminderText');
-    if (dueDate = "") dueDate=reminder.get('dueDate');
+    if (reminderText == "") reminderText=reminder.get('reminderText');
+    if (dueDate == "") dueDate=reminder.get('dueDate');
 
     this.props.handleEditReminder({reminderText: reminderText, dueDate:dueDate }, this.getParams().CarId, this.props.reminderId);
 

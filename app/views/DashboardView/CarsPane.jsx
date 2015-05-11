@@ -13,14 +13,21 @@ var CarsPane = React.createClass({
     that = this;
     var carCards = that.props.data.map(function (carCard) {
       return(
-        <CarCard data={carCard} selectedId={65000} />
+        <CarCard data={carCard} selectedId={65000} detailsClicked={that.props.detailsClicked} fillupsClicked={that.props.fillupsClicked} remindersClicked={that.props.remindersClicked} />
       );
     });
     return(
       <div className="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-        <p>CarCards</p>
         {carCards}
-        <div className="car_card HScrollEntry" onClick={this.handleClick}><p>+ New Car</p></div>
+        <div className="vehicle newVehicle HScrollEntry" onClick={this.handleClick}>
+          <div className="glass">
+          </div>
+          <div className="overlay">
+          </div>
+          <div className="addVehicle">
+            <p>+ Add Vehicle</p>
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,15 +1,25 @@
-div, img { border: 1px solid black; }
+1div, img { border: 1px solid black; }
 
-header {
-  margin-left: 1em;
-  margin-right: 1em;
+body {
+	font-size: 16px;
 }
 
-.selectedLayout, .status { float: left; }
-.menu { float: right; }
+a {
+    color: #004677;
+    text-decoration: none;
+}
 
-.contentSection { clear: both; }
+a:hover {
+    color: #0077C9;
+}
 
+p {
+    margin-bottom: 10px;
+}
+
+/******************************************************************************
+ Clearfix for floats
+******************************************************************************/
 .clearfix:before,
 .clearfix:after {
 content: " ";
@@ -23,3 +33,100 @@ clear: both;
 .clearfix {
 *zoom: 1;
 } 
+
+/******************************************************************************
+ Typography Styles
+
+ Consolidated to be in a single place and can be changed together without
+ worrying about missing things.
+******************************************************************************/
+.vehicle .units, .vehicle .cost-per-km, .vehicle .cost-per-month, #summary .units, #details-pane .units, .vehicle .header .data-model,
+.vehicle .nav a,
+body, #header,
+.editor .field-validation-valid, .editor .field-validation-error, .editor .validation-summary-errors,
+button, input[type=submit], .button, #homepage button
+{
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.vehicle .cost-per-month .unit, .vehicle .cost-per-km .unit, .vehicle .km_per_liter .unit
+.vehicle .header,
+#header .nav,
+.display .display-label, .editor .editor-label,
+{
+    font-family: "Segoe UI Semibold", "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.vehicle .header .name, .vehicle .km_per_liter,
+#homepage #header h1, #registration h1
+#statistics h1, #summary #statistics,
+#account h1, .aside > div > h1, 
+#details-pane .statistics, .display .display-field,
+.editor .editor-field, .editor .editor-field select, .editor .editor-field input[type=text],
+.editor .editor-field input[type=file],
+{
+    font-family: "Segoe UI Light", "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/******************************************************************************
+ Structure Styles
+******************************************************************************/
+
+.selectedLayout, .status { float: left; }
+.menu { float: right; }
+
+.contentSection { clear: both; }
+
+/******************************************************************************
+ Header Bar Section
+******************************************************************************/
+header
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 29px;
+    background-image: url(http://localhost:3000/images/nav-background.png);
+    
+    z-index: 10;
+}
+
+header h1
+{
+    font-weight: normal;
+    font-size: 21px;
+    margin: 1px 10px;
+    padding-bottom: 0.2em;
+}
+
+header .menu {
+	margin-right:  10px;
+}
+
+header .menu .nav
+{
+    float: right;
+    top: 0px;
+    bottom: 0px;
+    margin-left: 5px;
+    height: 28px;
+    
+    font-size: 14px;
+    line-height: 23px;
+}
+
+header .menu img
+{
+    vertical-align: middle;
+}
+
+.backDrop {
+	background-image: url(http://localhost:3000/images/background.jpg);
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-color: #888;
+	height: 1200px;
+	margin-top: 29px;
+}

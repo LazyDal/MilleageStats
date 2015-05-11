@@ -29,6 +29,9 @@ var FillupDetailsView = React.createClass({
     this.replaceWith('/Details/' + this.getParams().CarId + '/Fillups/' + this.getParams().FillupId + '/EditFillup'); 
   },
   render: function () {
+      var componentStyle = {
+        width: '270px'
+      };
       console.log("From FillupDetailsView: " + this.props.fillup);
         if (location.hash.indexOf('Edit')>0) {
           console.log("Inside EditFillupsView");
@@ -36,7 +39,7 @@ var FillupDetailsView = React.createClass({
         } else {
           console.log("Inside FillupDetailsView");
           return (
-          <div>
+          <div style={componentStyle}>
             <p>totalCost</p>
             <h4>{this.props.fillup.get('totalCost')}</h4>
             <p>Total Liters</p>
