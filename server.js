@@ -31,7 +31,6 @@ var carsSchema = new mongoose.Schema({
   name: String,
   pictureFile: String,
   kmTraveled: Number,
-  litresSpent: Number,
   fillups: [fillupsSchema],
   reminders: [remindersSchema]
 })
@@ -69,8 +68,7 @@ app.post('/api/cars', function (req, res) {
     model: req.body.model,
     name: req.body.name,
     pictureFile: req.body.pictureFile,
-    kmTraveled: req.body.kmTraveled,
-    litresSpent: req.body.litresSpent
+    kmTraveled: req.body.kmTraveled
   });
   console.log(newCar);
   newCar.save( function( err ){
@@ -94,7 +92,6 @@ app.put('/api/cars', function (req, res) {
         if (req.body.name !== "Car Name") car.name = req.body.name;
         if (req.body.pictureFile !== "img/car.jpg") car.pictureFile = req.body.pictureFile;
         if (req.body.kmTraveled !== -1) car.kmTraveled = req.body.kmTraveled;
-        if (req.body.litresSpent !== -1) car.litresSpent = req.body.litresSpent;
         console.log(req.body);
         if (req.body.fillup !== undefined) { 
           if (req.body.fillup._id !== undefined) {
@@ -216,9 +213,20 @@ app.listen(3000, 'localhost', function (err, result) {
   console.log('Listening at localhost:3000');
 });
 
-// app.listen(3000);
-// console.log('Server started: http://localhost:3000/');
+// var dalibor = new User({
+//   name: 'Dalibor Dragojevic',
+//   country: 'Serbia',
+//   postalCode: 13000
+// });
 
+// dalibor.save(function (err) {
+//   if (err) {
+//     console.log('Error while saving user!');
+//   }
+//   else {
+//      console.log('User Dalibor saved');
+//   }
+// });
 // var dalibor = new User({
 //   name: 'Dalibor Dragojevic',
 //   country: 'Serbia',

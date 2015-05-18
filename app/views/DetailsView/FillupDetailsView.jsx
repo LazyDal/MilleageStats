@@ -22,36 +22,36 @@ else { */
 
 var FillupDetailsView = React.createClass({
   mixins: [Navigation, Router.State],
-  handleDeleteClick: function () {
+  handleDeleteClick: function (e) {
+    e.stopPropagation();
     this.props.handleDeleteFillup(this.getParams().CarId, this.getParams().FillupId);
   },
-  handleEditClick: function () {
+  handleEditClick: function (e) {
+    e.stopPropagation();
     this.replaceWith('/Details/' + this.getParams().CarId + '/Fillups/' + this.getParams().FillupId + '/EditFillup'); 
   },
   render: function () {
-      var componentStyle = {
-        width: '270px'
-      };
       console.log("From FillupDetailsView: " + this.props.fillup);
         if (location.hash.indexOf('Edit')>0) {
           console.log("Inside EditFillupsView");
           return(<RouteHandler fillup={this.props.fillup} handleEditFillup={this.props.handleEditFillup}/>);
         } else {
+          date= new Date(this.props.fillup.get('date'));
           console.log("Inside FillupDetailsView");
           return (
-          <div style={componentStyle}>
-            <p>totalCost</p>
-            <h4>{this.props.fillup.get('totalCost')}</h4>
-            <p>Total Liters</p>
-            <h4>{this.props.fillup.get('totalLiters')}</h4>
-            <p>Filling Station</p>
-            <h4>{this.props.fillup.get('fillingStation')}</h4>
-            <p>Odometer</p>
-            <h4>{this.props.fillup.get('odometer')}</h4>
-            <p>Date</p>
-            <h4>{this.props.fillup.get('date')}</h4>
+          <div className="display">
             <button type="button" className="btn btn-default" onClick={this.handleEditClick}>Edit</button>
             <button type="button" className="btn btn-default" onClick={this.handleDeleteClick}>Delete</button>
+            <p className="display-label">totalCost</p>
+            <p className="display-field">{this.props.fillup.get('totalCost')}</p>
+            <p className="display-label">Total Liters</p>
+            <p className="display-field">{this.props.fillup.get('totalLiters')}</p>
+            <p className="display-label">Filling Station</p>
+            <p className="display-field">{this.props.fillup.get('fillingStation')}</p>
+            <p className="display-label">Odometer</p>
+            <p className="display-field">{this.props.fillup.get('odometer')}</p>
+            <p className="display-label">Date</p>
+            <p className="display-field">{this.props.fillup.get('date').toLocaleDateString()}</p>
           </div>
         );
       }

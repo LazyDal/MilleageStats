@@ -55,21 +55,21 @@ var Reminders = React.createClass({
         else {
           selected = "";
           if (that.state.ReminderId == reminder.get('_id')) {
-            selected = "fillupSelected";
+            selected = "selected";
           }
           return (<Reminder reminder={reminder} onReminderClick={that.handleClick} handleEditClick={that.handleEditClick} handleDeleteClick={that.handleDeleteClick} sel={selected} />);
         }
       });
-      var newReminder = <button type="button" className="btn btn-default" onClick={this.newReminderClicked}>New</button>;
-      if (location.hash.indexOf('New') > 0) {
-        reminderNodes.push(<NewReminderForm handleNewReminder={this.props.handleNewReminder} />);
-        newReminder = "";
-      }
+      if (this.props.addReminderButton)
+        var newReminder = <button type="button" className="btn btn-default" onClick={this.newReminderClicked}>Add</button>;
+      else
+        var newReminder = ""
+      if (location.hash.indexOf('New') > 0)
+        newReminder  = <NewReminderForm handleNewReminder={this.props.handleNewReminder} />;
       return(
-        <div>
-          <p>Reminders</p>
-          {reminderNodes}
+        <div className="list">
           {newReminder}
+          {reminderNodes}
         </div>
       );
     }

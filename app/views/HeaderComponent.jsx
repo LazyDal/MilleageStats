@@ -8,7 +8,7 @@ var HeaderComponent = React.createClass({
     return(
       <header>
         <SelectedLayout />
-        <Status status={this.props.status}/>
+        <Status status={this.props.status}  refreshShow={this.props.refreshShow} fadeOut={this.props.fadeOut} />
         <Menu />
       </header>
     );

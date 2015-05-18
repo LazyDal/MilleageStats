@@ -8,6 +8,7 @@ require('jquery-ui');
 // this.props.handleEditCar(new Car({brand: brand, model:model, name:name, kmTraveled:odometer, litresSpent:litres}));
 
 var NewFillupForm = React.createClass({
+  mixins: [Router.State, Router.Navigation],
   componentDidMount: function () {
    $( this.refs.date.getDOMNode()).datepicker();
   },
@@ -27,13 +28,20 @@ var NewFillupForm = React.createClass({
   render: function() {
     console.log("Inside NewFillupForm");
     return (
-      <form className="contentSection" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="total cost" ref="totalCost" /><br />
-        <input type="text" placeholder="total liters" ref="totalLiters" /><br />
-        <input type="text" placeholder="filling station" ref="fillingStation" /><br />
-        <input type="text" placeholder="odometer" ref="odometer" /><br />
-        <input type="text" placeholder="year-month-day" ref="date" /><br />
-        <input type="submit" value="Post" />
+      <form className="contentSection display" role="form" onSubmit={this.handleSubmit}>
+        <div class="form-group">
+          <label className="display-label">Total Cost</label>
+          <input className="form-control"  type="text" placeholder="euros" ref="totalCost" /><br />
+          <label className="display-label">Total Liters</label>
+          <input className="form-control" type="text" placeholder="liters" ref="totalLiters" /><br />
+          <label className="display-label">Filling Station</label>
+          <input className="form-control" type="text" placeholder="filling station name" ref="fillingStation" /><br />
+          <label className="display-label">Odometer</label>
+          <input className="form-control" type="text" placeholder="kilometers" ref="odometer" /><br />
+          <label className="display-label">Date</label>
+          <input className="form-control" type="text" placeholder="day-month-year" ref="date" /><br />
+          <input type="submit" className="btn btn-default" value="Submit" />
+        </div>
       </form>
     );
   }

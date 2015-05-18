@@ -2,19 +2,20 @@ var React = require('react');
 var Backbone = require('backbone');
 
 var ReminderView = React.createClass({
-  handleClick: function () {
+  handleClick: function (e) {
+    e.stopPropagation();
     console.log('ReminderId from ReminderView: ' + this.props.reminder.get('_id'));
     this.props.onReminderClick(this.props.reminder.get('_id'));
   },
-  handleDeleteClick: function () {
+  handleDeleteClick: function (e) {
+    e.stopPropagation();
     this.props.handleDeleteClick();
   },
-  handleEditClick: function () {
+  handleEditClick: function (e) {
+    e.stopPropagation();
     this.props.handleEditClick();
   },
   render: function () {
-    d = new Date(this.props.reminder.get('dueDate'));
-    date = d.toDateString() + ' ' + d.toTimeString();
     var buttons = [];
     if (this.props.sel != "") {
       buttons.push(<div>
@@ -22,11 +23,13 @@ var ReminderView = React.createClass({
                               <button type="button" className="btn btn-default" onClick={this.handleDeleteClick}>Delete</button>
                             </div>);
     }
-    classname = this.props.sel;
+    classname = "list-item " + this.props.sel;
+    if (this.props.reminder.get("dueDate") < Date.now())
+      classname += ' overdue';
     return (
       <div onClick={this.handleClick} className={classname}>
-         <p>{this.props.reminder.get('reminderText')}</p>
-         <p>Due Date: {date}</p>
+         <h1>{this.props.reminder.get('reminderText')}</h1>
+         <p>Due Date: {this.props.reminder.get("dueDate").toLocaleDateString()}</p>
          {buttons}
       </div>
     );

@@ -23,33 +23,31 @@ require('models/car');
 var CarCard = React.createClass({
   mixins: [Navigation, Router.State],
   handleClick: function (e) {
-    e.stopPropagation();
-    console.log("clicked inside car card");
-     this.transitionTo('/Details/' + this.props.data.id);
+    this.transitionTo('/Details/' +  this.props.data.get('_id')+ '/CarStats');
   },
-  detailsClicked: function (e) {
+  detailsClicked: function(e) {
     e.stopPropagation();
-    this.transitionTo('/Details/' + this.props.data.get('_id'));
+     this.transitionTo('/Details/' +  this.props.data.get('_id')+ '/CarStats');
   },
-  fillupsClicked: function (e) {
+  fillupsClicked: function(e) {
     e.stopPropagation();
-    this.transitionTo('/Details/' + this.props.data.get('_id') + "/Fillups");
+    this.transitionTo('/Details/' +  this.props.data.get('_id') + '/Fillups');
   },
-  remindersClicked: function (e) {
-    e.stopPropagation();
-    this.transitionTo("/Details/" + this.props.data.get('_id') + "/Reminders");
+  remindersClicked: function(e) {
+     e.stopPropagation();
+     this.transitionTo('/Details/' +  this.props.data.get('_id')+ '/Reminders');
   },
   render: function() {
     var carCard = this.props.data;
     console.log("Car id:" + carCard.id);
     var carCardClassName = "vehicle HScrollEntry clearfix";
     var carStats = <div></div>;
-    if (this.getParams().CarId == carCard.get('_id')) {
+    if (carCard.get('_id') !== undefined && this.getParams().CarId == carCard.get('_id')) {
       carCardClassName = "vehicle HScrollEntry clearfix selected";
       carStats = 
       <div className="car-stats clearfix">
          <div className="Km_Per_Liter">
-           <p className='quantity'>{Math.round(carCard.attributes.kmTraveled/carCard.attributes.litresSpent)}</p>
+           <p className='quantity'>21</p>
            <p className='unit'>kpl</p>
          </div>
          <div className="per_km_per_month clearfix">
@@ -75,7 +73,7 @@ var CarCard = React.createClass({
             </div>
         </div>
         <div className="middleSection">
-          <img className="car_image" alt="Car Image" src='images/vehicle.png'></img>
+          <img className="car_image" alt="car image" src="images/vehicle.png" />
           <div className="car_buttons">
             <button type="button" className={this.props.detailsClassName} onClick={this.detailsClicked} >
               <div className="glass"></div>

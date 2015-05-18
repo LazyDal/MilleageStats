@@ -13,32 +13,32 @@ var NewCarForm = React.createClass({
     var year = this.refs.year.getDOMNode().value.trim();
     var name = this.refs.name.getDOMNode().value.trim();
     var odometer = this.refs.odometer.getDOMNode().value.trim();
-    var litres = this.refs.litres.getDOMNode().value.trim();
 
-    this.refs.brand.getDOMNode().value = '';
-    this.refs.model.getDOMNode().value = '';
-    this.refs.year.getDOMNode().value = '';
-    this.refs.name.getDOMNode().value = '';
-    this.refs.odometer.getDOMNode().value = '';
-    this.refs.litres.getDOMNode().value = '';
-
-    this.props.handleNewCar(new Car({brand: brand, model:model, year: year, name:name, kmTraveled:odometer, litresSpent:litres}));
+    this.props.handleNewCar(new Car({brand: brand, model:model, year: year, name:name, kmTraveled:odometer, fillups: [], reminders: []}));
 
     return;
   },
   render: function() {
+    newCarStyle = {
+      marginLeft: 40,
+      marginTop: 40
+    }
     console.log("Inside NewCarForm");
     return (
-      <form className="contentSection" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Car Brand" ref="brand" /><br />
-        <input type="text" placeholder="Car Model" ref="model" /><br />
-        <input type="text" placeholder="year-month-day" ref="year" /><br />
-        <input type="text" placeholder="Car Name" ref="name" /><br />
-        <input type="text" placeholder="Odometer" ref="odometer" /><br />
-        <input type="text" placeholder="Litres" ref="litres" /><br />
-        <input type="submit" value="Post" />
-      </form>
+      <div className="col-xs-12 col-sm-9 col-md-9 col-lg-9 newCar" style={newCarStyle}>
+        <form className="newCarInnerBox" role="form" onSubmit={this.handleSubmit}>
+          <div class="form-group" style={newCarStyle}>
+            <input className="form-control" type="text" size="15" placeholder="Car Brand" ref="brand" /><br />
+            <input className="form-control" type="text" size="15" placeholder="Car Model" ref="model" /><br />
+            <input className="form-control" type="text" size="15" placeholder="Model Year" ref="year" /><br />
+            <input className="form-control" type="text" size="15" placeholder="Car Name" ref="name" /><br />
+            <input className="form-control" type="text" size="15" placeholder="Kilometres" ref="odometer" /><br />
+            <input type="submit" className="btn btn-default newCarButton" value="Submit" />
+          </div>
+        </form>
+      </div>
     );
   }
 });
 module.exports = NewCarForm;
+''

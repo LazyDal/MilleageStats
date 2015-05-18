@@ -19,7 +19,7 @@ var Menu = React.createClass({
           <Link to="Details">Details |</Link>
         </div>
         <div className="nav">
-          <Link to="App">[ Dashboard |</Link>
+          <Link to="Dashboard">[ Dashboard |</Link>
         </div>
 
       </div>

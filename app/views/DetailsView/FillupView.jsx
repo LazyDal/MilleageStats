@@ -8,14 +8,11 @@ var FillupView = React.createClass({
   },
   render: function () {
      console.log('Rendering a fillup');
-     var componentStyle = {
-      backgroundColor: 'yellow',
-      width: '270px',
-      oveflow: 'hide'
-    };
-    return (<div onClick={this.handleClick} style={componentStyle} className={this.props.sel}>
-      <h4>{this.props.fillup.get('fillingStation')}</h4>
-      <h4>{this.props.fillup.get('totalCost')}</h4>
+
+    return (<div onClick={this.handleClick} className={"list-item " + this.props.sel}>
+      <h1>{this.props.fillup.get('date').toLocaleDateString()}</h1>
+      <p>{this.props.fillup.get('fillingStation')}</p>
+      <p>{this.props.fillup.get('totalCost')}</p>
     </div>);
   }
 });

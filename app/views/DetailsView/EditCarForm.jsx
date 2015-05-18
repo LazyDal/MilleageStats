@@ -14,7 +14,6 @@ var EditCarForm = React.createClass({
     var year = this.refs.year.getDOMNode().value.trim();
     var name = this.refs.name.getDOMNode().value.trim();
     var odometer = this.refs.odometer.getDOMNode().value.trim();
-    var litres = this.refs.litres.getDOMNode().value.trim();
 
     var theCar = this.props.data;
     if (brand=="") brand = theCar.get('brand');
@@ -22,23 +21,29 @@ var EditCarForm = React.createClass({
     if (year=="") year = theCar.get('year');
     if (name=="") name = theCar.get('name');
     if (odometer=="") odometer = theCar.get('kmTraveled');
-    if (litres=="") litres=theCar.get('litresSpent');
 
-    this.props.handleEditCar({brand: brand, model:model, year: year, name:name, kmTraveled:odometer, litresSpent:litres}, this.getParams().CarId);
+    this.props.handleEditCar({brand: brand, model:model, year: year, name:name, kmTraveled:odometer}, this.getParams().CarId);
 
     return;
   },
   render: function() {
     var theCar = this.props.data;
     return (
-      <form className="contentSection" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder={theCar.get('brand')} ref="brand" /><br />
-        <input type="text" placeholder={theCar.get('model')} ref="model" /><br />
-        <input type="text" placeholder={theCar.get('year')} ref="year" /><br />
-        <input type="text" placeholder={theCar.get('name')} ref="name" /><br />
-        <input type="text" placeholder={theCar.get('kmTraveled')} ref="odometer" /><br />
-        <input type="text" placeholder={theCar.get('litresSpent')} ref="litres" /><br />
-        <input type="submit" value="Post" />
+      <form className="contentSection display" onSubmit={this.handleSubmit}>
+        <div class="form-group">
+            <label className="display-label">Car Brand</label>
+            <input className="form-control" type="text" placeholder={theCar.get('brand')} ref="brand" /><br />
+            <label className="display-label">Car Model</label>
+            <input className="form-control" type="text" placeholder={theCar.get('model')} ref="model" /><br />
+            <label className="display-label">Model Year</label>
+            <input className="form-control" type="text" placeholder={theCar.get('year')} ref="year" /><br />
+            <label className="display-label">Car Petname</label>
+            <input className="form-control" type="text" placeholder={theCar.get('name')} ref="name" /><br />
+            <label className="display-label">Odometer</label>
+            <input className="form-control" type="text" placeholder={theCar.get('kmTraveled')} ref="odometer" /><br />
+
+            <input type="submit" className="btn btn-default" value="Submit" />
+        </div>
       </form>
     );
   }

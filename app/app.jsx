@@ -29,34 +29,50 @@ var NewFillupForm = require('views/DetailsView/NewFillupForm.jsx');
 var EditFillupForm = require('views/DetailsView/EditFillupForm.jsx');
 var NewReminderForm = require('views/DetailsView/NewReminderForm.jsx');
 var EditReminderForm = require('views/DetailsView/EditReminderForm.jsx');
-
-    //   savingNewCar.done(function() {
-    //   theCars.fetch();
-    // });
-
-      // updatingCar.done(function () {
-      //   this.state.cars.fetch();
-      // });
-
+var CarStats = require('views/CarStats.jsx');
 
 cars = new Cars();
+
+      // cars.map(function(car){
+      //   car.get('fillups').map(function(fillup) {
+      //     d = new Date(fillup.date);
+      //     fillup.date = d;
+      //   });
+      //   car.get('reminders').map(function(reminder) {
+      //     d = new Date(reminder.dueDate);
+      //     reminder.dueDate = d;
+      //   });
+      // });
 
 var App = React.createClass({
   mixins: [Navigation, Router.State],
   getInitialState: function () {
-    return {status: "Syncing..." };
+    return {status: "Syncing...", refreshShow: true};
   },
   componentWillMount: function () {
     cars.fetch();
     cars.on('sync', function() {
-      this.setState({status: "O.K."});
+     cars.map(function(car){
+        car.get('fillups').map(function(fillup) {
+          d = new Date(fillup.date);
+          fillup.date = d;
+        });
+        car.get('reminders').map(function(reminder) {
+          d = new Date(reminder.dueDate);
+          reminder.dueDate = d;
+        });
+      });
+      this.setState({status: "Synced", refreshShow: false});
     }.bind(this));
     cars.on('request', function () {
-      this.setState({status: "Syncing..."});
+      this.setState({status: "Syncing...", refreshShow: true});
     }.bind(this));
     cars.on('error', function () {
-      this.setState({status: "Server error!"})
+      this.setState({status: "Server error!", refreshShow: false})
     }.bind(this));
+  },
+  eraseStatus: function() {
+    this.setState({status: ""});
   },
   handleNewCar: function (newCar) {
     console.log("Inside handleNewCar");
@@ -70,15 +86,15 @@ var App = React.createClass({
   handleEditCar: function (parameters, carId) {
     console.log("Processing edit car");
     var car = cars.get(carId);
-    car.set({name: parameters.name, brand:parameters.brand, model:parameters.model, year:parameters.year, kmTraveled:parameters.kmTraveled, litresSpent:parameters.litresSpent});
+    car.set({name: parameters.name, brand:parameters.brand, model:parameters.model, year:parameters.year, kmTraveled:parameters.kmTraveled});
     var updatingCar = Backbone.sync("update", car);
 
-    this.transitionTo('/Details/' + this.getParams().carId);
+    this.transitionTo('/Details/' + carId + '/CarStats');
   },
   handleDeleteCar: function (carId) {
     console.log('Deleting the car with id:' + carId)
     Backbone.sync("delete", cars.get(carId), {url:'/api/cars/' + carId});
-    cars.remove(carId);
+    cars.remove(cars.get(carId));
     this.transitionTo("/Details");
   },
   handleNewFillup: function (fillup, carId) {
@@ -170,12 +186,18 @@ var App = React.createClass({
   },
   render: function () {
     console.log('From New App: ');
-    console.log('Function: ' + this.handleNewFillup);
+    if (this.state.status == 'Syncing...')
+      fadeOut = false;
+    else
+      fadeOut = true;
+    console.log("Refreshing status: " + this.state.refreshShow);
     return (
       <div>
-        <HeaderComponent status={this.state.status}/>
+        <HeaderComponent status={this.state.status} refreshShow={this.state.refreshShow} fadeOut={fadeOut}/>
         <div className="backDrop clearfix">
-          <RouteHandler carsData={cars} handleNewCar={this.handleNewCar} handleEditCar={this.handleEditCar} handleDeleteCar={this.handleDeleteCar} handleNewFillup={this.handleNewFillup} handleEditFillup={this.handleEditFillup} handleDeleteFillup={this.handleDeleteFillup} handleNewReminder={this.handleNewReminder} handleEditReminder={this.handleEditReminder} handleDeleteReminder={this.handleDeleteReminder}/>
+          <div className="content">
+            <RouteHandler carsData={cars} handleNewCar={this.handleNewCar} handleEditCar={this.handleEditCar} handleDeleteCar={this.handleDeleteCar} handleNewFillup={this.handleNewFillup} handleEditFillup={this.handleEditFillup} handleDeleteFillup={this.handleDeleteFillup} handleNewReminder={this.handleNewReminder} handleEditReminder={this.handleEditReminder} handleDeleteReminder={this.handleDeleteReminder}/>
+          </div>
         </div>
       </div>
       );
@@ -187,6 +209,7 @@ var routes = (
     <Route name="Details" path="Details" handler={DetailsView}>
       <Route name="CarDetails" path=":CarId" handler={AccordionWidget} >
         <Route name="EditCar" path="EditCar" handler={EditCarForm} />
+        <Route name="CarStats" path="CarStats" handler={CarStats} />
         <Route name="Fillups" path="Fillups" handler={FillupsView} >
           <Route name="NewFillup" path="NewFillup" handler={NewFillupForm} />
           <Route name="FillupDetails" path=":FillupId" handler={FillupDetailsView} >
@@ -197,11 +220,12 @@ var routes = (
           <Route name="NewReminder" path="NewReminder" handler={NewReminderForm} />
           <Route name="EditReminder" path="EditReminder" handler={EditReminderForm} />
         </Route>
-        <DefaultRoute handler={CarDetailsPane}/>
       </Route>
     </Route>
-    <Route name="Dashboard" handler={DashboardView} />
-    <Route name="NewCar" path="NewCar" handler={NewCarForm} />
+    <Route name="Dashboard" handler={DashboardView}>
+      <Route name="NewCar" path="NewCar" handler={NewCarForm} />
+      <DefaultRoute handler ={CarsPane} />
+    </Route>
     <Route name="Charts" handler={DetailsView}/>
     <Route name="Profile" handler={DetailsView}/>
     <Route name="Sign-out" handler={DetailsView}/>
@@ -212,21 +236,4 @@ var routes = (
 Router.run(routes, function (Handler) {
   React.render(<Handler/>, document.body);
 });
-// React.render(<App cars = {cars} />, document.body);
 
-// theCars.on('sync', function() {
-//          if (this.state.status == "Syncing..") {
-//             theCars.fetch();
-//          }
-//          else { 
-//           this.setState({cars: theCars, status: "O.K."});
-//         }
-//     }.bind(this));
-//     theCars.on('request', function () {
-//       if (this.state.status == "Syncing..") {
-//         this.setState({status: "Syncing..."});
-//       }
-//       else {
-//         this.setState({status: "Syncing.."});
-//       }
-//     }.bind(this));

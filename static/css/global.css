@@ -2,6 +2,8 @@
 
 body {
 	font-size: 16px;
+        background-color: #888;
+
 }
 
 a {
@@ -40,29 +42,29 @@ clear: both;
  Consolidated to be in a single place and can be changed together without
  worrying about missing things.
 ******************************************************************************/
-.vehicle .units, .vehicle .cost-per-km, .vehicle .cost-per-month, #summary .units, #details-pane .units, .vehicle .header .data-model,
-.vehicle .nav a,
-body, #header,
-.editor .field-validation-valid, .editor .field-validation-error, .editor .validation-summary-errors,
-button, input[type=submit], .button, #homepage button
+body, #header, #vehicles .nav a, #vehicles .units, #vehicles .cost-per-mile,
+#vehicles .cost-per-month, #summary .units, #details-pane .units,
+.editor .field-validation-valid, .editor .field-validation-error,
+.editor .validation-summary-errors, button, input[type=submit], .button,
+#homepage button, .vehicle .header .data-model
 {
     font-family: "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
-.vehicle .cost-per-month .unit, .vehicle .cost-per-km .unit, .vehicle .km_per_liter .unit
-.vehicle .header,
 #header .nav,
-.display .display-label, .editor .editor-label,
+#vehicles .header, .vehicle .cost-per-month .unit, .vehicle .cost-per-mile .unit, .vehicle .mile-per-gallon .unit
+.display .display-label,
+.editor .editor-label,
 {
     font-family: "Segoe UI Semibold", "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
-.vehicle .header .name, .vehicle .km_per_liter,
-#homepage #header h1, #registration h1
-#statistics h1, #summary #statistics,
-#account h1, .aside > div > h1, 
-#details-pane .statistics, .display .display-field,
-.editor .editor-field, .editor .editor-field select, .editor .editor-field input[type=text],
+.display .display-field, .editor .editor-field,
+#details-pane .statistics, .statistics-header,
+#homepage #header h1, #registration h1,
+#vehicles .header .name, #vehicles .mile-per-gallon, #statistics h1,
+#account h1, .aside > div > h1, #summary #statistics,
+.editor .editor-field select, .editor .editor-field input[type=text],
 .editor .editor-field input[type=file],
 {
     font-family: "Segoe UI Light", "Segoe UI", Helvetica, Arial, sans-serif;
@@ -75,7 +77,22 @@ button, input[type=submit], .button, #homepage button
 .selectedLayout, .status { float: left; }
 .menu { float: right; }
 
-.contentSection { clear: both; }
+.backDrop {
+    position:relative;
+    margin-top: 29px;
+
+    background-image: url(http://localhost:3000/images/background.jpg);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: left-top;
+    background-color: #888;
+    height: 1200px;
+    max-width: 1623px;
+}
+
+.content {
+    margin-left: 29px;
+}
 
 /******************************************************************************
  Header Bar Section
@@ -121,12 +138,225 @@ header .menu img
     vertical-align: middle;
 }
 
-.backDrop {
-	background-image: url(http://localhost:3000/images/background.jpg);
-	background-attachment: fixed;
-	background-repeat: no-repeat;
-	background-position: center top;
-	background-color: #888;
-	height: 1200px;
-	margin-top: 29px;
+.status {
+    -webkit-transition: opacity 2s; /* Safari */
+    transition: opacity 2s;
+    margin-top: 3px;
+    margin-left: 10px;
+    color: #87b4bb;
+}
+
+/******************************************************************************
+ Content Section
+******************************************************************************/
+
+.wellcome-box-container {
+    margin-top: 2em;
+    margin-right: 2em;
+    float:left;
+    height: 624px;
+    width: 335px;
+    background-image: url(http://localhost:3000/images/summary-pane.jpg);
+
+     border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    
+    box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -webkit-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -moz-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -o-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+}
+.wellcome-box {
+    padding: 9px;
+    margin-top: 9px;
+    margin-left: 40px;
+    height: 610px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    background-color: #bbb;
+    background: rgba( 233, 233, 233, 0.6 );
+    border: 1px solid #bababa;
+    border: 1px solid rgba( 233, 233, 233, 0.8 );
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    
+    box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -webkit-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -moz-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -o-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+}
+.user-registration {
+    width: 200px;
+}
+.summary-statistics {
+    margin-top: 10px;
+}
+.display-field, .editor .editor-field
+{
+    font-size: 28px;
+    line-height: 30px;
+    margin-bottom: 4px;
+    padding: 4px 0;
+    width: 95%;
+    white-space: nowrap;
+    
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+.display-title {
+    line-height: 1em;
+    font-family: "Segoe UI Light";
+    font-size: 20px;
+}
+.display-middle {
+    line-height: 1em;
+    font-family: "Segoe UI Light";
+    font-size: 20px;
+}
+.display-big-number {
+    line-height: 1em;
+    font-family: "Segoe UI Semibold";
+    font-size: 45px;
+}
+.display-dashboard-unit {
+    line-height: 1em;
+    font-family: "Segoe UI Semibold";
+    font-size: 20px;
+}
+
+
+/******************************************************************************
+ List Styles
+******************************************************************************/
+
+.list
+{
+    border-top: 1px solid #ccc;
+    width: 240px;
+}
+.list .list-item
+{
+    border-bottom: 1px solid #aaa;
+    border-left: 1px solid transparent;
+    display: block;
+    padding: 4px 2px 0;
+    background: rgba( 255, 255, 255, 0.3 );
+    color: #37b;
+}
+.list .list-item:hover
+{
+    background-color: #ccc;
+    background: rgba( 255, 255, 255, 0.5 );
+}
+.list .list-item:active
+{
+    background-color: #ddd;
+    background: rgba( 255, 255, 255, 0.7 );
+}
+.list .list-item.selected
+{
+    background-color: #ddd;
+    background: rgba( 255, 255, 255, 0.6 );
+    border-left: 3px solid #aaa;    
+    padding-left: 0px;
+}
+.list .list-item.overdue
+{
+    color: #a31a10;   
+}
+.list .list-item h1
+{
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0 6px;
+    padding: 0 0 0.2em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
+}
+.list .list-item p
+{
+    font-size: 13px;
+    line-height: 1.2em;
+    padding: 0 3px 0.15em;
+    margin: 0 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.list .list-item .icon
+{
+    float: left;
+    height: 42px;
+    width: 28px;
+}
+.list button {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    width: 90px;
+    background-color: #67949b;
+    -webkit-transition: background-color 0.5s; /* Safari */
+        transition: background-color 0.5s;
+}
+.list button:hover {
+    background-color: #87b4bb;
+}
+
+/******************************************************************************
+ New Car
+******************************************************************************/
+.newCar {
+    position: relative;
+
+    width: 410px;
+    height: 622px;
+
+    border: 1px solid #bababa;
+    border: 1px solid rgba( 233, 233, 233, 0.8 );
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    
+    box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -webkit-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -moz-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -o-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+
+    background-image: url(http://localhost:3000/images/add-vehicle-pane.jpg);
+}
+.newCarInnerBox {
+    position:absolute;
+    left:8px;
+    top:8px;
+
+    width: 390px;
+    height: 602px;
+
+        border: 1px solid #bababa;
+    border: 1px solid rgba( 233, 233, 233, 0.8 );
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    
+    box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -webkit-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -moz-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+    -o-box-shadow: 0px 0px 12px rgba( 0, 0, 0, 0.4 ), inset 0px 0px 10px rgba( 233, 233, 233, 0.4 );
+
+    overflow: hidden;
+}
+.newCarButton {
+    background-color: Orange;
+}
+
+.newCarButton:hover {
+     background-color:  Gold;
 }

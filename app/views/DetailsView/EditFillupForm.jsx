@@ -40,13 +40,20 @@ var EditFillupForm = React.createClass({
         oveflow: 'hide'
     };
     return (
-      <form className="contentSection" onSubmit={this.handleSubmit} style={componentStyle}>
-        <input type="text" placeholder={fillup.get('totalCost')} ref="totalCost" /><br />
-        <input type="text" placeholder={fillup.get('totalLiters')} ref="totalLiters" /><br />
-        <input type="text" placeholder={fillup.get('fillingStation')} ref="fillingStation" /><br />
-        <input type="text" placeholder={fillup.get('odometer')} ref="odometer" /><br />
-        <input type="text" placeholder={fillup.get('date')} ref="date" /><br />
-        <input type="submit" value="Post" />
+      <form className="contentSection display" role="form" onSubmit={this.handleSubmit} style={componentStyle}>
+        <div class="form-group">
+          <label className="display-label">Total Cost</label>
+          <input className="form-control" type="text" placeholder={fillup.get('totalCost')} ref="totalCost" /><br />
+          <label className="display-label">Total Liters</label>
+          <input className="form-control" type="text" placeholder={fillup.get('totalLiters')} ref="totalLiters" /><br />
+          <label className="display-label">Filling Station</label>
+          <input className="form-control" type="text" placeholder={fillup.get('fillingStation')} ref="fillingStation" /><br />
+          <label className="display-label">Odometer</label>
+          <input className="form-control" type="text" placeholder={fillup.get('odometer')} ref="odometer" /><br />
+          <label className="display-label">Date</label>
+          <input type="text" placeholder={fillup.get('date').toLocaleDateString()} ref="date" /><br />
+          <input type="submit" className="btn btn-default" value="Submit" />
+        </div>
       </form>
     );
   }

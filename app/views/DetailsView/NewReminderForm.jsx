@@ -22,13 +22,20 @@ var NewReminderForm = React.createClass({
 
     return;
   },
+  componentDidMount: function () {
+   $( this.refs.dueDate.getDOMNode()).datepicker();
+  },
   render: function() {
     console.log("Inside NewReminderForm");
     return (
-      <form className="contentSection" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="reminder text" ref="reminderText" /><br />
-        <input type="text" placeholder="date" ref="dueDate" /><br />
-        <input type="submit" value="Post" />
+      <form className="contentSection" role="form" onSubmit={this.handleSubmit}>
+        <div class="form-group">
+          <label className="display-label">Reminder Text</label>
+          <input className="form-control" type="text" placeholder="reminder text" ref="reminderText" /><br />
+          <label className="display-label">Due Date</label>
+          <input className="form-control" type="text" placeholder="day-month-year" ref="dueDate" /><br />
+          <input type="submit" className="btn btn-default" value="Submit" />
+        </div>
       </form>
     );
   }

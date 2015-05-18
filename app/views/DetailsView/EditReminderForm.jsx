@@ -30,10 +30,14 @@ var EditReminderForm = React.createClass({
     console.log("Inside EditReminderForm");
     var reminder = this.props.reminder;
     return (
-      <form className="contentSection" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder={reminder.get("reminderText")} ref="reminderText" /><br />
-        <input type="text" placeholder={reminder.get("dueDate")} ref="dueDate" /><br />
-        <input type="submit" value="Submit" />
+      <form className="contentSection" role="form" onSubmit={this.handleSubmit}>
+        <div class="form-group">
+          <label className="display-label">Reminder Text</label>
+          <input className="form-control" type="text" placeholder={reminder.get("reminderText")} ref="reminderText" /><br />
+          <label className="display-label">Due Date</label>
+          <input className="form-control" type="text" placeholder={reminder.get("dueDate").toLocaleDateString()} ref="dueDate" /><br />
+          <input type="submit" className="btn btn-default" value="Submit" />
+        </div>
       </form>
     );
   }

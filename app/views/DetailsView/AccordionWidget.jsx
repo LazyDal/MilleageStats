@@ -19,122 +19,103 @@ var Fillups = require('collections/fillups');
 /* carData, remindersData, fillupsData  */
 /* from DetailsView                     */
 /****************************************/
-
-  // componentWillReceiveProps: function () {
-  //   this.forceUpdate();
-  // },
-
-// this.transitionTo('/Details/' + this.getParams().CarId + '/Reminders');
-
 var AccordionWidget = React.createClass({
   mixins: [Navigation, Router.State],
-  animateReminder: function () {
-    this.transitionTo('/Details/' + this.getParams().CarId + '/Reminders');
+  getInitialState: function() {
+    return ({tab: 'init'});
   },
-  animateFillups: function () {
-    this.transitionTo('/Details/' + this.getParams().CarId + '/Fillups');
+  showCarStats: function() {
+     this.transitionTo('/Details/' + this.getParams().CarId + '/CarStats');
   },
-  animateDetails: function () {
-     this.transitionTo('/Details/' + this.getParams().CarId);
+  showFillups: function() {
+   this.transitionTo('/Details/' + this.getParams().CarId + '/Fillups');
   },
-  handleClickOnDetails: function () {
-    setTimeout(this.animateDetails, 700);
+  showReminders: function() {
+    this.transitionTo('/Details/' + this.getParams().CarId+ '/Reminders');
+  },
+  handleDetailsTransition: function () {
+    console.log("DETAILS TRANSITION");
+    setTimeout(this.showCarStats, 700);
     $(this.refs.fillups.getDOMNode()).removeClass("fillupsLeft");
     $(this.refs.reminders.getDOMNode()).removeClass("remindersLeft");
     $(this.refs.fillups.getDOMNode()).removeAttr("style");
     $(this.refs.reminders.getDOMNode()).removeAttr("style");
     $(this.refs.fillups.getDOMNode()).addClass("fillupsRight");
     $(this.refs.reminders.getDOMNode()).addClass("remindersRight");
+    this.setState({tab: "stats"});
   },
-  handleClickOnFillups: function () {
-    setTimeout(this.animateFillups, 700);
+  handleFillupsTransition: function () {
+    setTimeout(this.showFillups, 700);
     $(this.refs.fillups.getDOMNode()).css("left", "50px");
     $(this.refs.reminders.getDOMNode()).removeClass("remindersLeft");
     $(this.refs.reminders.getDOMNode()).removeAttr("style");
     $(this.refs.reminders.getDOMNode()).addClass("remindersRight");
+    this.setState({tab: "fillups"});
   },
-  handleClickOnReminders: function () {
-    setTimeout(this.animateReminder, 700);
+  handleRemindersTransition: function () {
+    setTimeout(this.showReminders, 700);
     $( this.refs.fillups.getDOMNode()).css("left", "50px");
     $( this.refs.reminders.getDOMNode()).css("left", "100px");
+    this.setState({tab: "reminders"});
+  },
+  componentWillReceiveProps: function() {
+    console.log("RECEIVE PROPS");
+    if (location.hash.indexOf('Fillups') > 0 && this.state.tab != 'fillups')  {
+      if (this.state.tab != 'init') this.handleFillupsTransition();
+    }
+    if (location.hash.indexOf('Reminders') > 0 && this.state.tab != 'reminders')  {
+      if (this.state.tab != 'init') this.handleRemindersTransition();
+    }
+    if (location.hash.indexOf('CarStats') > 0 && this.state.tab != 'stats')  {
+      console.log("TAB: " + this.state.tab);
+      if (this.state.tab != 'init') this.handleDetailsTransition();
+    }
   },
   render: function () {
     console.log('inside AccordionWidget');
     console.log('Function: ' + this.props.handleNewFillup);
     var theCar = this.props.carsData.get(this.getParams().CarId);
     console.log('The car: ' + theCar);
+    if (theCar === undefined) return (<div></div>);
     var InnerNodes = [];
     if (location.hash.indexOf('Fillups') > 0)  {
-      InnerNodes.push(<div className="accordionWidgetDetails" onClick={this.handleClickOnDetails}></div>);
-      InnerNodes.push(<div className="accordionWidgetFillups fillupsLeft" onClick={this.handleClickOnFillups} ref="fillups" >
-        <RouteHandler fillups={theCar.get('fillups')} handleNewFillup={this.props.handleNewFillup} handleEditFillup={this.props.handleEditFillup} handleDeleteFillup={this.props.handleDeleteFillup}  />
+      InnerNodes.push(<div className="accordionWidgetDetails"> <div className="bar" onClick={this.handleDetailsTransition}></div> </div>);
+      InnerNodes.push(<div className="accordionWidgetFillups fillupsLeft" ref="fillups" >
+        <div className="bar" onClick={this.handleFillupsTransition}></div>
+        <div className="fillups-reminders-view">
+          <RouteHandler fillups={theCar.get('fillups')} handleNewFillup={this.props.handleNewFillup} handleEditFillup={this.props.handleEditFillup} handleDeleteFillup={this.props.handleDeleteFillup}  />
+        </div>      
       </div>);
-      InnerNodes.push(<div className="accordionWidgetReminders remindersRight"  onClick={this.handleClickOnReminders} ref="reminders" ></div>);
+      InnerNodes.push(<div className="accordionWidgetReminders remindersRight"  ref="reminders" ><div className="bar" onClick={this.handleRemindersTransition}></div></div>);
     }
     else if (location.hash.indexOf('Reminders') > 0)  {
-      InnerNodes.push(<div className="accordionWidgetDetails" onClick={this.handleClickOnDetails}></div>);
-      InnerNodes.push(<div className="accordionWidgetFillups fillupsLeft" onClick={this.handleClickOnFillups} ref="fillups" ></div>);
-      InnerNodes.push(<div className="accordionWidgetReminders remindersLeft" onClick={this.handleClickOnReminders} ref="reminders">
-        <RouteHandler reminders={theCar.get('reminders')} handleNewReminder={this.props.handleNewReminder} handleEditReminder={this.props.handleEditReminder} handleDeleteReminder={this.props.handleDeleteReminder} />
+      InnerNodes.push(<div className="accordionWidgetDetails" ><div className="bar" onClick={this.handleDetailsTransition}></div></div>);
+      InnerNodes.push(<div className="accordionWidgetFillups fillupsLeft" ref="fillups" ><div className="bar" onClick={this.handleFillupsTransition}></div></div>);
+      InnerNodes.push(<div className="accordionWidgetReminders remindersLeft" ref="reminders">
+        <div className="bar" onClick={this.handleRemindersTransition}></div>
+        <div className="fillups-reminders-view">
+          <RouteHandler reminders={theCar.get('reminders')} addReminderButton={true} handleNewReminder={this.props.handleNewReminder} handleEditReminder={this.props.handleEditReminder} handleDeleteReminder={this.props.handleDeleteReminder} />
+        </div>
       </div>);
     }
     else {
       var carName = theCar.get('name');
       console.log('Car name from accordion:' + carName);
-      InnerNodes.push(<div className="accordionWidgetDetails" onClick={this.handleClickOnDetails}>
-        <RouteHandler data={theCar} handleEditCar={this.props.handleEditCar} handleDeleteCar={this.props.handleDeleteCar} />
+      InnerNodes.push(<div className="accordionWidgetDetails" >
+        <div className="bar" onClick={this.handleDetailsTransition}></div>
+        <CarDetailsPane  data={theCar} handleEditCar={this.props.handleEditCar} handleDeleteCar={this.props.handleDeleteCar} />
       </div>);
-      InnerNodes.push(<div className="accordionWidgetFillups fillupsRight"  onClick={this.handleClickOnFillups} ref="fillups" ></div>);
-      InnerNodes.push(<div className="accordionWidgetReminders remindersRight"   onClick={this.handleClickOnReminders} ref="reminders"></div>);
+      InnerNodes.push(<div className="accordionWidgetFillups fillupsRight"  ref="fillups" ><div className="bar" onClick={this.handleFillupsTransition}></div></div>);
+      InnerNodes.push(<div className="accordionWidgetReminders remindersRight"  ref="reminders"><div className="bar" onClick={this.handleRemindersTransition}></div></div>);
     }
     return (
-      <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8">
         <div className="accordionWidget">
           <div className="accordionWidgetInnerBox">
             {InnerNodes}
           </div>
         </div>
-      </div>
     );
   }
 });
 module.exports = AccordionWidget;
 
-        // 
-
-// InnerNodes.push(<RouteHandler fillupsData={this.props.fillupsData} fillupsIndexes={that.props.carData.get('fillups')}  />);
-// InnerNodes.push(<CarDetailsPane data={this.props.carsData} remindersData={this.props.remindersData} className="accordionWidgetShrinked" />);
-
-// componentWillReceiveProps: function () {
-//   this.forceUpdate();
-// },
-
-// findWhere({_id:
-
-          // this.props.carsData.fetch();
-// location.hash = "/Details/" + this.props.selectedCar + "/Fillups";
-    // $.ajax({
-    //   url: '/api/cars/',
-    //   type: 'PUT',
-    //   data: this.props.carsData.get(this.props.selectedCar),
-    //   success: function(result) {
-    //     console.log('jQuery patch done.');
-    //   }
-    //   location.hash = "/Details/" + this.props.selectedCar + "/Fillups";
-    // });
-
-    // this.props.carsData.get(this.props.selectedCar).fetch();
-    //  location.hash = "/Details/" + this.props.selectedCar + "/Fillups";
-
- // $.ajax({
- //      url: '/api/newfillup/' + this.props.selectedCar,
- //      dataType: 'json',
- //      type: 'POST',
- //      data: fillup,
- //      success: function(fillup) {
- //        location.hash = "/Details/" + this.props.selectedCar + "/Fillups";
- //      }.bind(this),
- //      error: function(xhr, status, err) {
- //        console.error(this.props.url, status, err.toString());
- //      }.bind(this)
- //    });

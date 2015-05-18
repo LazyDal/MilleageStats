@@ -6,6 +6,7 @@ var WellcomeBox = require('views/DashboardView/WellcomeBox.jsx');
 var CarsPane = require('views/DashboardView/CarsPane.jsx');
 
 var DashboardView = React.createClass({
+  mixins: [Router.Navigation],
   getInitialState: function () {
     return ({SelectedView: 0});
   },
@@ -16,8 +17,8 @@ var DashboardView = React.createClass({
   render: function() {
     return(
       <div className = "contentSection">
-        <WellcomeBox />
-        <CarsPane data={this.props.carsData} handleNewCar={this.handleNewCar} />
+        <WellcomeBox theCars={this.props.carsData} />
+        <RouteHandler data={this.props.carsData} handleNewCar={this.handleNewCar} />
       </div>
     );
   }

@@ -8,8 +8,6 @@ var RouteHandler = Router.RouteHandler;
 var Cars = require('collections/cars');
 
 var CarsBox = require('views/CarsBox.jsx');
-var CarDetailsPane = require('views/DetailsView/CarDetailsTab.jsx');
-var AccordionWidget = require('views/DetailsView/AccordionWidget.jsx');
 
 /***************************************/
 /* carData, remindersData, fillupsData */
@@ -40,16 +38,15 @@ var AccordionWidget = require('views/DetailsView/AccordionWidget.jsx');
 
 
 var DetailsView = React.createClass({
-  mixins: [Navigation, Router.State],
-  getInitialState: function () {
-    return ({CarId: this.getParams().CarId, SelectedView: 0});
-  },
   render: function() {
-    console.log('inside Details render');
     return(
-      <div className = "contentSection">
-        <CarsBox data={this.props.carsData} />
-        <RouteHandler  carsData={this.props.carsData} handleEditCar={this.props.handleEditCar} handleDeleteCar={this.props.handleDeleteCar} handleNewFillup={this.props.handleNewFillup} handleEditFillup={this.props.handleEditFillup} handleDeleteFillup={this.props.handleDeleteFillup} handleNewReminder={this.props.handleNewReminder} handleEditReminder={this.props.handleEditReminder} handleDeleteReminder={this.props.handleDeleteReminder} />
+      <div>
+        <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        	<CarsBox data={this.props.carsData} /> 
+        </div>
+        <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+      	  <RouteHandler  carsData={this.props.carsData} addReminderButton={true} handleEditCar={this.props.handleEditCar} handleDeleteCar={this.props.handleDeleteCar} handleNewFillup={this.props.handleNewFillup} handleEditFillup={this.props.handleEditFillup} handleDeleteFillup={this.props.handleDeleteFillup} handleNewReminder={this.props.handleNewReminder} handleEditReminder={this.props.handleEditReminder} handleDeleteReminder={this.props.handleDeleteReminder} />
+        </div>
       </div>
     );
   }

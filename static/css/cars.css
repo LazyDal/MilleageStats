@@ -4,11 +4,11 @@
 .vehicle
 {
     clear: both;
+    position: relative;
     display: inline-block;
     max-width: 17em;
     margin-right: 2em;
     margin-top: 2em;
-    position: relative;
     width: 240px;
     
     overflow: hidden;
@@ -140,12 +140,16 @@
 }
 
 .vehicle .middleSection {
+  position: relative;
   background-color: #777;
   padding: 4px;
+  height: 118px;
 }
 
 .car_buttons {
-  float: right;
+  position: absolute;
+  left: 120px;
+  top: 4px;
 }
 .car_buttons button {
   display: block;
@@ -228,7 +232,8 @@
 }
 
 .car_image {
-  background-image: url(http://localhost:3000/images/vehicle.png);
+   position:absolute;
+    left: 4px;
 }
 
 .car-stats {

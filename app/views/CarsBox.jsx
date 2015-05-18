@@ -37,12 +37,8 @@ require('models/car');
 
 var CarsBox = React.createClass({
   mixins: [Router.State],
-  getInitialState: function () {
-    return ({CarId:0, PressedButton:0});
-  },
   render: function() {
     that = this;
-    console.log('Inside vehicles render,  carCard _id: ' + this.state.CarId + ' button pressed: ' + this.state.PressedButton);
     var detailsClassName = [], fillupsClassName = [], remindersClassName=[];
     var carCards = [];
     for (var i =  0; i < this.props.data.length; i++) {
@@ -63,7 +59,7 @@ var CarsBox = React.createClass({
       carCards.push(<CarCard data={this.props.data.at(i)} detailsClassName={detailsClassName[i]} fillupsClassName={fillupsClassName[i]} remindersClassName={remindersClassName[i]} />);
     };
     return(
-      <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4 vehicles smHScrollLgVScroll">
+      <div className="vehicles smHScrollLgVScroll">
         {carCards}
       </div>
     );
