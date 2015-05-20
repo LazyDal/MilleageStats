@@ -1,7 +1,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
+var formidable = require('formidable');
+var fs = require('fs');
 var mongoose = require('mongoose');
+var _= require('underscore');
+
 
 var app = express();
 
@@ -23,13 +27,19 @@ var remindersSchema = new mongoose.Schema({
   dueDate: Date
 });
 
+var imgSchema = new mongoose.Schema({
+    data: Buffer,
+    contentType: String
+});
+
+
 var carsSchema = new mongoose.Schema({
   _owner : { type: mongoose.Schema.ObjectId, ref: 'User' },
+  _carImage: {type: mongoose.Schema.ObjectId, ref: 'Image'},
   year: Number,
   brand: String,
   model: String,
   name: String,
-  pictureFile: String,
   kmTraveled: Number,
   fillups: [fillupsSchema],
   reminders: [remindersSchema]
@@ -49,51 +59,39 @@ var User = mongoose.model( 'User', usersSchema );
 var Car = mongoose.model( 'Car', carsSchema );
 var Fillup = mongoose.model( 'Fillup', fillupsSchema );
 var Reminder = mongoose.model( 'Reminder', remindersSchema );
+var Image = mongoose.model('Image', imgSchema);
 
-app.get('/api/cars', function(req, res) {
-  Car.find({}, function (err, cars) {
-    if (!err) {
-      res.send(cars);
-    } else {
-      console.log(err);
-      res.end();
-    }
+app.get('/api/cars/:carId/image', function(req, res) {
+   //   Image.findOne({"name": "image-image"}, function(err, image) {console.
+   console.log('Returning image...');
+   Car.findById(req.params.carId)
+        .populate('_carImage')
+        .exec(function(err,car) {
+          if(!err) {
+            console.log('carImage: ' + car._carImage);
+              if (car._carImage === undefined) {
+                Image.findOne({"name": "no-image"}, function(err, image) {
+                  console.log("No-image data:" + image.contentType);
+                  res.send(image.data);
+                  console.log('No-image image returned.');
+                });
+              }
+              else {
+                var carImage = car._carImage;
+                // res.writeHead(200, {'contentType': carImage.contentType});
+                res.send(carImage.data);
+                console.log('Car image returned.');
+              }
+          } else {
+              console.log(err);
+              res.end();
+        }
   });
 });
 
-app.post('/api/cars', function (req, res) {
-  var newCar = new Car({
-    year: req.body.year,
-    brand: req.body.brand,
-    model: req.body.model,
-    name: req.body.name,
-    pictureFile: req.body.pictureFile,
-    kmTraveled: req.body.kmTraveled
-  });
-  console.log(newCar);
-  newCar.save( function( err ){
-    if(!err){
-      console.log('New cars saved!');
-      res.json({"status":"O.K."});
-    }
-    else {
-      res.end();
-    }
-  });
-});
-
-app.put('/api/cars', function (req, res) {
-  Car.findOne({_id : req.body._id}, function(err, car) {
-      if(!err){
-        // 2: EDIT the record
-        if (req.body.year != 0) car.year = req.body.year;
-        if (req.body.brand != "Brand") car.brand = req.body.brand;
-        if (req.body.model != "Model") car.model = req.body.model;
-        if (req.body.name !== "Car Name") car.name = req.body.name;
-        if (req.body.pictureFile !== "img/car.jpg") car.pictureFile = req.body.pictureFile;
-        if (req.body.kmTraveled !== -1) car.kmTraveled = req.body.kmTraveled;
-        console.log(req.body);
-        if (req.body.fillup !== undefined) { 
+app.put('/api/cars/:carId/fillups', function(req, res) {
+  Car.findOne({'_id': req.params.carId}, function (err, car) {
+       if (req.body.fillup !== undefined) { 
           if (req.body.fillup._id !== undefined) {
             var fillup = car.fillups.id(req.body.fillup._id);
             fillup.totalCost = req.body.fillup.totalCost;
@@ -114,7 +112,162 @@ app.put('/api/cars', function (req, res) {
             car.fillups.push (new Fillup(req.body.fillup));
             console.log("Fillup added");
           }
+          car.save( function( err ){
+            if(!err){
+              console.log('New cars saved.');
+              res.json({"status":"O.K."});
+            }
+            else {
+              res.end('Error while saving new Car!');
+            }
+          });
         }
+    });
+});
+
+app.put('/api/cars/:carId/reminders', function(req, res) {
+  Car.findOne({'_id': req.params.carId}, function (err, car) {
+       if (req.body.reminder !== undefined) { 
+          if (req.body.reminder._id !== undefined) {
+            var reminder = car.reminders.id(req.body.reminder._id);
+            reminder.reminderText = req.body.reminder.reminderText;
+            reminder.dueDate = req.body.reminder.dueDate;
+            reminder.save(function (err) {
+              if (!err) {
+                console.log('Reminder updated: ', reminder);
+              }
+              else {
+                console.log('Error: reminder NOT updated!');
+              }
+            });
+          }
+          else {
+            car.reminders.push(new Reminder(req.body.reminder));
+            console.log("Reminder added");
+          }
+
+        // 3: SAVE the record
+        car.save(function(err){
+          if(!err){
+            res.json({"status":"O.K."});
+            console.log('Car updated:', car);
+          }
+          else  {
+            console.log('Error: car NOT updated!');
+            res.end();
+          }
+        });
+        }
+    });
+});
+
+app.get('/api/cars', function(req, res) {
+  Car.find({}, function (err, cars) {
+    if (!err) {
+      res.send(cars);
+    } else {
+      console.log(err);
+      res.end();
+    }
+  });
+});
+
+// app.post('/api/cars', function (req, res) {
+//   var newCar = new Car({
+//     year: req.body.year,
+//     brand: req.body.brand,
+//     model: req.body.model,
+//     name: req.body.name,
+//     pictureFile: req.body.pictureFile,
+//     kmTraveled: req.body.kmTraveled
+//   });
+//   console.log(newCar);
+//   newCar.save( function( err ){
+//     if(!err){
+//       console.log('New cars saved!');
+//       res.json({"status":"O.K."});
+//     }
+//     else {
+//       res.end();
+//     }
+//   });
+// });
+
+app.post('/api/cars', function(req, res){
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files){
+    if(err) return res.end();
+    console.log('received fields:');
+    console.log(fields);
+    console.log('received files:');
+    console.log(files);
+
+    newCar = new Car(fields);
+
+    if (files.carImage.size > 0) {
+      var carImage = new Image;
+      carImage.data = fs.readFileSync(files.carImage.path);
+      carImage.contentType = 'image/jpg';
+      newCar._carImage = carImage;
+      carImage.save(function (err) {
+        if(!err){
+          console.log('Image saved to mongo');
+        }
+        else  {
+          console.log('Error: image NOT saved!');
+        }
+      });
+    }
+    newCar.save( function( err ){
+      if(!err){
+        console.log('New cars saved.');
+        res.json({"status":"O.K."});
+      }
+      else {
+        res.end('Error while saving new Car!');
+      }
+    });
+  });
+});
+
+app.put('/api/cars', function (req, res) {
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files){
+    Car.findOne({_id : fields._id}, function(err, car) {
+      if(!err){
+        // 2: EDIT the record
+        if (fields.year !== 0) car.year = fields.year;
+        if (fields.brand !== "Brand") car.brand = fields.brand;
+        if (fields.model !== "Model") car.model = fields.model;
+        if (fields.name !== "Car Name") car.name = fields.name;
+        if (fields.kmTraveled !== -1) car.kmTraveled = fields.kmTraveled;
+        if (files.carImage.size > 0) {
+          var oldImage = car._carImage;
+
+          var carImage = new Image;
+          carImage.data = fs.readFileSync(files.carImage.path);
+          carImage.contentType = 'image/jpg';
+          car._carImage = carImage;
+          carImage.save(function (err) {
+            if(!err){
+              console.log('Image saved to mongo');
+            }
+            else  {
+              console.log('Error: image NOT saved!');
+            }
+          });
+          
+          Image.remove({_id: oldImage}, function (err){
+            if (!err){
+              console.log("Cars deleted");
+            }
+            else {
+              console.log("Error! Oldimage: " + oldImage);
+            }
+          });
+        }
+        
+        
         else if (req.body.reminder !== undefined) {
           if (req.body.reminder._id !== undefined ) {
             var reminder = car.reminders.id(req.body.reminder._id);
@@ -147,14 +300,20 @@ app.put('/api/cars', function (req, res) {
           }
         });
       }
+    });
   });
 });
 
 app.delete('/api/cars/:id', function (req, res) {
+  var carImage = Car.findById(req.params.carId)._carImage;
   Car.remove({ _id : req.params.id } , function (err){
     if (!err){
       console.log("Cars deleted");
-      res.json({"status":"O.K."});
+      Image.remove({_id:carImage},  function (err){
+        if (!err)
+          console.log("Image deleted");
+        res.json({"status":"O.K."});
+      });
     }
   });
 });

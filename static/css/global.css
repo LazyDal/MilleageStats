@@ -94,6 +94,10 @@ body, #header, #vehicles .nav a, #vehicles .units, #vehicles .cost-per-mile,
     margin-left: 29px;
 }
 
+.semiTransparent {
+    opacity: 0.5;
+}
+
 /******************************************************************************
  Header Bar Section
 ******************************************************************************/
@@ -333,10 +337,10 @@ header .menu img
 }
 .newCarInnerBox {
     position:absolute;
-    left:8px;
+    left:35px;
     top:8px;
 
-    width: 390px;
+    width: 370px;
     height: 602px;
 
         border: 1px solid #bababa;
@@ -353,10 +357,22 @@ header .menu img
 
     overflow: hidden;
 }
-.newCarButton {
+.carImageUpload {
+     border: 1px solid #404040;
+    border: 1px solid rgba( 64, 64, 64, 0.8 );
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+
+    text-align: center;
+    color: #404040;
+}
+.submitButton {
     background-color: Orange;
+    margin-left: 150px;
 }
 
-.newCarButton:hover {
+.submitButton:hover {
      background-color:  Gold;
 }

@@ -137,7 +137,7 @@
 	margin-left: 40px;
 }
 .display button {
-	margin-left: 20px;
+	margin-right: 10px;
 	margin-bottom: 20px;
 	width: 90px;
 	background-color: #67949b;
@@ -174,12 +174,33 @@
 .vehicleStatistics .statistics-header{
 	font-size: 25px;
 	margin-bottom: -5px;
-	top: 45px;
+	top: 35px;
 	left: 40px;
+	text-align: center;
 }
 .vehicleData {
 	float: left;
 	margin-left: 40px;
 	margin-top: 40px;
 	margin-bottom:25px;
+}
+
+.editCarForm {
+	position: absolute;
+	width: 250px;
+}
+.editCarForm .btn {
+	background-color: Orange;
+	-webkit-transition: background-color 0.5s; /* Safari */
+    	transition: background-color 0.5s;
+}
+.editCarForm .btn:hover {
+	background-color: Gold;
+}
+
+.chart {
+	1background-image: url(http://localhost:3000/images/paper-small.jpg)
+}
+.carTabReminders {
+	margin-top: 20px;
 }
