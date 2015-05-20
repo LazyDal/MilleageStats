@@ -29,7 +29,7 @@ var ReminderView = React.createClass({
     return (
       <div onClick={this.handleClick} className={classname}>
          <h1>{this.props.reminder.get('reminderText')}</h1>
-         <p>Due Date: {this.props.reminder.get("dueDate").toLocaleDateString()}</p>
+         <p>Due Date: {this.props.reminder.get("dueDate").toLocaleString()}</p>
          {buttons}
       </div>
     );

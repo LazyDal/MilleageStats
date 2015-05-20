@@ -40,7 +40,7 @@ var NewFillupForm = React.createClass({
           <input className="form-control" type="text" placeholder="kilometers" ref="odometer" /><br />
           <label className="display-label">Date</label>
           <input className="form-control" type="text" placeholder="day-month-year" ref="date" /><br />
-          <input type="submit" className="btn btn-default" value="Submit" />
+          <input type="submit" className="btn btn-default submitButton" value="Submit" />
         </div>
       </form>
     );

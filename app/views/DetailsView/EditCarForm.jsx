@@ -9,41 +9,41 @@ var EditCarForm = React.createClass({
   mixins: [Router.State],
   handleSubmit: function(e) {
     e.preventDefault();
-    var brand = this.refs.brand.getDOMNode().value.trim();
-    var model = this.refs.model.getDOMNode().value.trim();
-    var year = this.refs.year.getDOMNode().value.trim();
-    var name = this.refs.name.getDOMNode().value.trim();
-    var odometer = this.refs.odometer.getDOMNode().value.trim();
-
+    
     var theCar = this.props.data;
-    if (brand=="") brand = theCar.get('brand');
-    if (model=="") model = theCar.get('model');
-    if (year=="") year = theCar.get('year');
-    if (name=="") name = theCar.get('name');
-    if (odometer=="") odometer = theCar.get('kmTraveled');
+    
+    if (this.refs.brand.getDOMNode().value.trim() === "") this.refs.brand.getDOMNode().value = theCar.get('brand');
+    if (this.refs.model.getDOMNode().value.trim() ==="") this.refs.model.getDOMNode().value = theCar.get('model');
+    if (this.refs.year.getDOMNode().value.trim() ==="") this.refs.year.getDOMNode().value = theCar.get('year');
+    if (this.refs.name.getDOMNode().value.trim() ==="") this.refs.name.getDOMNode().value = theCar.get('name');
+    if (this.refs.odometer.getDOMNode().value.trim()==="") this.refs.odometer.getDOMNode().value = theCar.get('kmTraveled');
 
-    this.props.handleEditCar({brand: brand, model:model, year: year, name:name, kmTraveled:odometer}, this.getParams().CarId);
+    oData = new FormData(this.refs.editCarForm.getDOMNode());
+    oData.append("_id", this.props.data.get('_id'));
+    this.props.handleEditCar(oData, this.props.data.get('_id'));
 
     return;
   },
   render: function() {
     var theCar = this.props.data;
     return (
-      <form className="contentSection display" onSubmit={this.handleSubmit}>
-        <div class="form-group">
+      <form className="editCarForm" encType="multipart/form-data" method="put" ref="editCarForm" onSubmit={this.handleSubmit}>
             <label className="display-label">Car Brand</label>
-            <input className="form-control" type="text" placeholder={theCar.get('brand')} ref="brand" /><br />
+            <input className="form-control" type="text" placeholder={theCar.get('brand')} name="brand" ref="brand" /><br />
             <label className="display-label">Car Model</label>
-            <input className="form-control" type="text" placeholder={theCar.get('model')} ref="model" /><br />
+            <input className="form-control" type="text" placeholder={theCar.get('model')} name="model" ref="model" /><br />
             <label className="display-label">Model Year</label>
-            <input className="form-control" type="text" placeholder={theCar.get('year')} ref="year" /><br />
+            <input className="form-control" type="text" placeholder={theCar.get('year')} name="year" ref="year" /><br />
             <label className="display-label">Car Petname</label>
-            <input className="form-control" type="text" placeholder={theCar.get('name')} ref="name" /><br />
+             <input className="form-control" type="text" placeholder={theCar.get('name')} name="name"  ref="name" /><br />
             <label className="display-label">Odometer</label>
-            <input className="form-control" type="text" placeholder={theCar.get('kmTraveled')} ref="odometer" /><br />
-
-            <input type="submit" className="btn btn-default" value="Submit" />
-        </div>
+            <input className="form-control" type="text" placeholder={theCar.get('kmTraveled')} name="kmTraveled" ref="odometer" /><br />
+            <div className="carImageUpload">
+              <label className="control-label">Upload car photo</label>
+              <input type="file" accept="image/*" name="carImage" ref="photo" />
+            </div>
+            <br />
+            <input type="submit" className="btn btn-default submitButton" value="Submit" />
       </form>
     );
   }

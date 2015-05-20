@@ -2,13 +2,11 @@ var Backbone = require("backbone");
 
 var Car = Backbone.Model.extend({
   defaults: {
-    year: 0,
 	brand: "Brand",
 	model: "Model",
+	year: 0,
 	name: "Car Name",
-	pictureFile: "img/car.jpg",
-	kmTraveled: -1,
-	litresSpent: -1,
+	kmTraveled: 0,
 	selected: false
   },
   idAttribute: '_id',

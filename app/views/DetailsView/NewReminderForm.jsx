@@ -34,7 +34,7 @@ var NewReminderForm = React.createClass({
           <input className="form-control" type="text" placeholder="reminder text" ref="reminderText" /><br />
           <label className="display-label">Due Date</label>
           <input className="form-control" type="text" placeholder="day-month-year" ref="dueDate" /><br />
-          <input type="submit" className="btn btn-default" value="Submit" />
+          <input type="submit" className="btn btn-default submitButton" value="Submit" />
         </div>
       </form>
     );

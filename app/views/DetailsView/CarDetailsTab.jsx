@@ -2,6 +2,7 @@ var React = require('react');
 var Navigation = require('react-router').Navigation;
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
+var LineChart = require('react-d3/linechart').LineChart;
 
 var CarStats = require('views/CarStats.jsx');
 var Fillups = require('views/DetailsView/FillupsView.jsx');
@@ -22,21 +23,54 @@ var CarDetailsTab = React.createClass({
         return  reminder;
       }
     });
+    var fillups = this.props.data.get('fillups');
+    var oldDistance = this.props.data.get('kmTraveled');
+    var averageFuelEfficiency = fillups.map(function(fillup) {
+      var distance = fillup.odometer - oldDistance;
+      oldDistance = fillup.odometer;
+      return {x: fillup.date, y: distance/fillup.totalLiters}
+    });
+    var lineData = [
+    {
+      name: "series1",
+      values: averageFuelEfficiency
+    }];
+    var totalDistanceTravelled = fillups.map(function(fillup){
+      var distance = fillup.odometer - oldDistance;
+      oldDistance = fillup.odometer;
+      return {x: fillup.date, y: distance}
+    });
+    var lineData2 = [
+    {
+      name: "series2",
+      values: totalDistanceTravelled
+    }];
+    var totalCost = fillups.map(function(fillup){
+      return  {x: fillup.date, y: fillup.totalCost}
+    });
+    var lineData3 = [
+    {
+      name: "series3",
+      values: totalCost
+    }];
     return(
       <div>
         <div className="vehicleStatistics">
           <p className="statistics-header">Last 12 Months</p>
-          <p className="statistics-label">Average Fuel Efficiency</p>
-          <h1>D3 VISUALIZATION</h1>
-          <p className="statistics-label">Total Distance Travelled</p>
-          <h1>D3 VISUALIZATION</h1>
-          <p className="statistics-label">Total Cost</p>
-          <h1>D3 visualisation</h1>
+          <div className="chart">
+            <LineChart  data={lineData}  width={300}  height={130}  title="Average Fuel Efficiency" />
+          </div>
+          <div className="chart">
+            <LineChart  className="chart" data={lineData2}  width={300}  height={130}  title="Total Distance Travelled" />
+          </div>
+          <div className="chart">
+            <LineChart  className="chart" data={lineData3}  width={300}  height={130}  title="Total Cost" />
+          </div>
         </div>
         <div className="vehicleData">
           <RouteHandler data={this.props.data} handleEditCar={this.props.handleEditCar} handleDeleteCar={this.props.handleDeleteCar} />
           <div>
-            <Reminders reminders = {reminders} addReminderButton={false} />
+            <Reminders reminders = {reminders} className="carTabReminders" addReminderButton={false} />
           </div>
         </div>
       </div>

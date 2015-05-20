@@ -41,6 +41,8 @@ var CarCard = React.createClass({
     var carCard = this.props.data;
     console.log("Car id:" + carCard.id);
     var carCardClassName = "vehicle HScrollEntry clearfix";
+    if (carCard.get('_id') === undefined)
+      carCardClassName += "  semiTransparent";
     var carStats = <div></div>;
     if (carCard.get('_id') !== undefined && this.getParams().CarId == carCard.get('_id')) {
       carCardClassName = "vehicle HScrollEntry clearfix selected";
@@ -52,7 +54,7 @@ var CarCard = React.createClass({
          </div>
          <div className="per_km_per_month clearfix">
             <div className="Cost-Per-Km">
-              <h4 className='quantity'>18$</h4>
+              <h4 className='quantity'>18c</h4>
               <p className="unit">per km</p>
             </div>
             <div className='Cost-Per-Month'>
@@ -62,6 +64,7 @@ var CarCard = React.createClass({
         </div>
       </div>
     }
+    var imageSrc = 'http://localhost:3000/api/cars/' + carCard.id + '/image#' + new Date().getTime();
     return(
       <div className={carCardClassName} onClick={this.handleClick}>
         <div className="header">
@@ -73,7 +76,7 @@ var CarCard = React.createClass({
             </div>
         </div>
         <div className="middleSection">
-          <img className="car_image" alt="car image" src="images/vehicle.png" />
+          <img className="car_image" alt="car image" src={imageSrc} />
           <div className="car_buttons">
             <button type="button" className={this.props.detailsClassName} onClick={this.detailsClicked} >
               <div className="glass"></div>

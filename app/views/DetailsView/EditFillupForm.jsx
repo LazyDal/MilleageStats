@@ -52,7 +52,7 @@ var EditFillupForm = React.createClass({
           <input className="form-control" type="text" placeholder={fillup.get('odometer')} ref="odometer" /><br />
           <label className="display-label">Date</label>
           <input type="text" placeholder={fillup.get('date').toLocaleDateString()} ref="date" /><br />
-          <input type="submit" className="btn btn-default" value="Submit" />
+          <input type="submit" className="btn btn-default submitButton" value="Submit" />
         </div>
       </form>
     );

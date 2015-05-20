@@ -43,6 +43,13 @@ cars = new Cars();
       //     reminder.dueDate = d;
       //   });
       // });
+    
+
+    // cars.add(newCar);
+    //         var savingNewCar = newCar.save();
+    // savingNewCar.done(function() {
+    //    cars.fetch();
+    // });
 
 var App = React.createClass({
   mixins: [Navigation, Router.State],
@@ -76,18 +83,50 @@ var App = React.createClass({
   },
   handleNewCar: function (newCar) {
     console.log("Inside handleNewCar");
-    cars.add(newCar);
-    var savingNewCar = newCar.save();
-    savingNewCar.done(function() {
-       cars.fetch();
-    });
+    console.log("oData: " + newCar);
+
+    var oReq = new XMLHttpRequest();
+    oReq.open("POST", "api/cars", true);
+    oReq.onload = function(oEvent) {
+      if (oReq.status == 200) {
+        console.log("Car uploaded.");
+        cars.fetch();
+      } else {
+        console.log("Error " + oReq.status + " occurred uploading your file.");
+      }
+    };
+    oReq.send(newCar);
+    cars.trigger('request');
+
+    var newCarModel = new Car(JSON.stringify(newCar));
+    cars.add(newCarModel);
+    console.log("Car: " + newCarModel);
+    console.log("Cars: " + cars);
+   
     this.transitionTo('/Dashboard');
   },
-  handleEditCar: function (parameters, carId) {
+  handleEditCar: function (editedCar, carId) {
     console.log("Processing edit car");
-    var car = cars.get(carId);
-    car.set({name: parameters.name, brand:parameters.brand, model:parameters.model, year:parameters.year, kmTraveled:parameters.kmTraveled});
-    var updatingCar = Backbone.sync("update", car);
+
+    var oReq = new XMLHttpRequest();
+    oReq.open("PUT", "api/cars", true);
+    oReq.onload = function(oEvent) {
+      if (oReq.status == 200) {
+        console.log("Car uploaded.");
+        cars.fetch();
+      } else {
+        console.log("Error " + oReq.status + " occurred uploading your file.");
+      }
+    };
+    oReq.send(editedCar);
+    cars.trigger('request');
+
+    car = cars.get(carId);
+    car.set({'brand': editedCar.brand});
+    car.set({'model': editedCar.Model});
+    car.set({'year': editedCar.year});
+    car.set({'name': editedCar.name});
+    car.set({'kmTraveled': editedCar.kmTraveled});
 
     this.transitionTo('/Details/' + carId + '/CarStats');
   },
@@ -100,10 +139,11 @@ var App = React.createClass({
   handleNewFillup: function (fillup, carId) {
     var fillups = cars.get(carId).get('fillups');
     fillups.push(fillup);
+
     var car = new Car();
-    car.set({_id: carId});
     car.set({fillup: fillup});
-    var updatingCar = Backbone.sync("update", car);
+
+    var updatingCar = Backbone.sync("update", car, {url:'/api/cars/' + carId + '/fillups'});
     updatingCar.done(function () {
       cars.fetch();
     });
@@ -120,11 +160,9 @@ var App = React.createClass({
             fillup.fillingStation = editedFillup.fillingStation;
             fillup.odometer = editedFillup.odometer;
             fillup.date = editedFillup.date;
-            var carForServer = new Car(car.toJSON());
-            carForServer.set('fillups', []);
-            carForServer.set('reminders', []);
+            var carForServer = new Car();
             carForServer.set('fillup', fillup);
-            var updatingCar = Backbone.sync("update", carForServer);
+            var updatingCar = Backbone.sync("update", carForServer, {url:'/api/cars/' + carId + '/fillups'});
             selected = "fillupSelected";
             that.transitionTo('/Details/' + carId + '/Fillups/' + fillupId);
         }
@@ -145,10 +183,11 @@ var App = React.createClass({
   handleNewReminder: function (reminder, carId) {
     var reminders = cars.get(carId).get('reminders');
     reminders.push(reminder);
+    
     var car = new Car();
-    car.set({_id: carId});
     car.set({reminder: reminder});
-    var updatingCar = Backbone.sync("update", car);
+    
+    var updatingCar = Backbone.sync("update", car, {url:'/api/cars/' + carId + '/reminders'});
     updatingCar.done(function () {
       cars.fetch();
     });
@@ -163,11 +202,9 @@ var App = React.createClass({
         if (reminder._id == reminderId) {
             reminder.reminderText = editedReminder.reminderText;
             reminder.dueDate = editedReminder.dueDate;
-            var carForServer = new Car(car.toJSON());
-            carForServer.set('fillups', []);
-            carForServer.set('reminders', []);
+            var carForServer = new Car();
             carForServer.set('reminder', reminder);
-            var updatingCar = Backbone.sync("update", carForServer);
+            var updatingCar = Backbone.sync("update", carForServer, {url:'/api/cars/' + carId + '/reminders'});
             selected = "fillupSelected";
             that.transitionTo('/Details/' + carId + '/Reminders');
         }

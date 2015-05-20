@@ -10,9 +10,6 @@ var Menu = React.createClass({
           <Link to="Sign-out">Sign-out ]</Link>
         </div>
         <div className="nav">
-          <Link to="Charts">Charts |</Link>
-        </div>
-        <div className="nav">
           <Link to="Profile">Profile |</Link>
         </div>
         <div className="nav">
