@@ -52,7 +52,7 @@ var CarCard = React.createClass({
            <p className='quantity'>21</p>
            <p className='unit'>kpl</p>
          </div>
-         <div className="per_km_per_month clearfix">
+         <div className="clearfix">
             <div className="Cost-Per-Km">
               <h4 className='quantity'>18c</h4>
               <p className="unit">per km</p>

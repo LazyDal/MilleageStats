@@ -84,6 +84,7 @@
 .accordionWidgetReminders {
 	background-color: #777;
 	background-image: url(http://localhost:3000/images/reminders-pane.jpg);
+	background-position: 
 	-webkit-transition: left 0.7s; /* Safari */
     	transition: left 0.7s;
 }
